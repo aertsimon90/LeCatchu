@@ -113,3 +113,29 @@ LeCatchu was born out of a series of failures and breakthroughs. What began as a
 **Test Suite:** `lecatchu_v1_test.py`
 
 Feel free to explore, test, and contribute to LeCatchu. Your feedback and ideas are invaluable for future improvements!
+
+### Shh 🤫 Look Here
+
+Have you seen the mysterious `xbase` values inside LeCatchu?
+
+Well... *that’s actually your second key.*
+
+If your `xbase` is set to `1`, you already gain access to **vigintillions** of unique keys. Pretty wild, right?
+
+**But what if you set it higher?**  
+Let’s say `xbase = 50` — now, instead of just swimming through a pool of `10^63` keys,  
+you’re diving into an ocean of **`10^512` unique values**.  
+That’s no longer "a lot" — that’s *effectively infinite* in the software universe.
+
+And get this: now imagine you’re using **500 multi-keys**,  
+each of them built with `xbase = 50`...  
+Congratulations.  
+You’ve created a crypto-system so chaotic, even chaos gave up trying to understand it.
+
+---
+
+**xbase** is the secret key to the keys.  
+The engine behind uniqueness.  
+The multiplier of entropy.  
+And the cherry on top?  
+> LeCatchu's only flaw is that it doesn’t tell you it’s flawless.
