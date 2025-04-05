@@ -102,7 +102,7 @@ class LeCatchuApp:
     def __init__(self, root):
         self.root = root
         self.root.title("LeCatchu Encryption Engine")
-        self.root.geometry("600x400")
+        self.root.geometry("600x500")
 
         # Main frame
         self.main_frame = ttk.Frame(self.root, padding="10")
