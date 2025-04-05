@@ -1,5 +1,7 @@
 # LeCatchu v1
 
+![LeCatchu Logo](LeCatchu.png)
+
 LeCatchu is a new alternative in the encryption industry – a lightweight yet powerful encryption engine designed to provide robust security in a compact package. Born from a journey of repeated redesigns and relentless experimentation, LeCatchu is a testament to iterative improvement and creative cryptographic engineering.
 
 ---
