@@ -53,7 +53,7 @@ class LeCatchu_Engine:
 			new.append(chr(self.decoding_sbox[h]))
 		return "".join(new)
 	def process_hash(self, key, xbase=1): 
-		okey = key
+		okey = str(key)
 		hashs = []
 		for _ in range(xbase):
 			key = hashlib.sha256(str(key).encode(errors="ignore")).hexdigest()
