@@ -52,11 +52,13 @@ class LeCatchu_Engine:
 		for h in target.split(self.seperator):
 			new.append(chr(self.decoding_sbox[h]))
 		return "".join(new)
-	def process_hash(self, key, xbase=1):
+	def process_hash(self, key, xbase=1): 
+		okey = key
 		hashs = []
 		for _ in range(xbase):
 			key = hashlib.sha256(str(key).encode(errors="ignore")).hexdigest()
-			hashs.append(key)
+			hashs.append(key) 
+			key = key+okey
 		return int("".join(hashs), 16)
 	def encrypt(self, target, key, xbase=1):
 		new = []
