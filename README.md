@@ -2,6 +2,12 @@
 
 ![LeCatchu Logo](LeCatchu.png)
 
+### Technical Information
+
+LeCatchu v2 is a lightweight, high-entropy cryptography engine based on an unpredictable shifting algorithm. It’s designed not as a standalone encryption method, but as a core engine on which secure systems can be built.
+
+Compared to RSA, it is 2–3 times faster and more secure. Its performance can vary based on implementation, but it's highly optimized for flexibility. In future versions, it will be ported to C and JavaScript, where it can be up to 500 times faster without losing functionality — potentially rivaling AES in performance.
+
 LeCatchu v2 is the next-generation evolution of the lightweight encryption engine that began with LeCatchu v1. This new version introduces extensive optimizations and refinements across all core functionalities, resulting in a faster, more efficient, and secure encryption system. LeCatchu v2 is engineered to deliver robust cryptographic performance without compromising on speed or security.
 
 ---
