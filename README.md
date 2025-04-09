@@ -1,149 +1,133 @@
-# LeCatchu v2
+# LeCatchu v3
 
 ![LeCatchu Logo](LeCatchu.png)
 
 ### Technical Information
 
-LeCatchu v2 is a lightweight, high-entropy cryptography engine based on an unpredictable shifting algorithm. It’s designed not as a standalone encryption method, but as a core engine on which secure systems can be built.
+LeCatchu v3 is a lightweight, high-entropy cryptography engine built around an unpredictable shifting algorithm. It is not designed as a standalone encryption method but as a core engine upon which secure systems can be constructed.
 
-Compared to RSA, it is 2–3 times faster and more secure. Its performance can vary based on implementation, but it's highly optimized for flexibility. In future versions, it will be ported to C and JavaScript, where it can be up to 500 times faster without losing functionality — potentially rivaling AES in performance.
+Compared to RSA, it offers 2–3 times faster performance and enhanced security. While its efficiency depends on implementation, it is highly optimized for flexibility. Future versions will be ported to C and JavaScript, potentially achieving up to 500x speed improvements without sacrificing functionality—positioning it as a rival to AES in performance.
 
-LeCatchu v2 is the next-generation evolution of the lightweight encryption engine that began with LeCatchu v1. This new version introduces extensive optimizations and refinements across all core functionalities, resulting in a faster, more efficient, and secure encryption system. LeCatchu v2 is engineered to deliver robust cryptographic performance without compromising on speed or security.
+LeCatchu v3 is the next evolution of the lightweight encryption engine that evolved from v2. It was developed to address a critical security flaw in v2 (improper handling of the `xbase` parameter in the hash stream), while also optimizing performance. After fixing the flaw, a slowdown of approximately 0.0005 seconds was observed in the hash stream, prompting a 1.5x performance boost through hash system enhancements. LeCatchu truly values its users (assuming there are any!).
+
+LeCatchu v3 is currently the latest and non-experimental version of the LeCatchu Engine. In other words, LeCatchu v3 is, for now, the best LeCatchu engine designed for real-world operations.
 
 ---
 
 ## Overview
 
-LeCatchu v2 builds directly on the foundation laid by its predecessor, LeCatchu v1, while incorporating a host of improvements based on real-world testing and developer feedback. Key enhancements in v2 include:
+LeCatchu v3 builds on v2’s foundation, introducing significant improvements in security and performance based on real-world testing and feedback. Key enhancements include:
 
-1. **Optimization and Speed:**  
-   The entire engine has been reworked for maximum performance. Core functions such as encryption, decryption, encoding, and decoding have been fine-tuned to reduce processing time significantly.
+1. **Security Fix:**  
+   v2’s `hash_stream` function mishandled the `xbase` parameter, leading to inconsistent key streams. v3 resolves this critical vulnerability, ensuring robust encryption.
 
-2. **Revamped Hash Algorithm:**  
-   The hash mechanism has been redesigned to operate more quickly. While still rehashing the key for each character (a critical security requirement), the new algorithm reduces overhead, resulting in a more responsive encryption process.
+2. **Performance Optimization:**  
+   After fixing the security issue, a 0.0005-second slowdown was detected. This was mitigated by switching to Blake2b and adding caching (`@lru_cache`), resulting in a 1.5x faster hash system.
 
-3. **Improved Type-Checking in Encode/Decode:**  
-   The methods for detecting and handling input types in the `encode` and `decode` functions have been optimized, ensuring that only valid inputs are processed. This reduces error overhead and improves overall efficiency.
+3. **Speed and Efficiency:**  
+   Core functions—encryption, decryption, encoding, and decoding—have been fine-tuned to minimize processing time.
 
-4. **Optimized Encryption/Decryption Routines:**  
-   The `encrypt` and `decrypt` functions have been re-engineered to push performance boundaries, streamlining the inner loops and reducing unnecessary computations.
+4. **Revamped Hash Algorithm:**  
+   Transitioning from SHA-256 to Blake2b with caching, the hash system is now faster and more secure while maintaining per-character key rehashing.
 
-5. **Safe repr/eval Mimicry via lestr and leval:**  
-   LeCatchu v2 introduces the `lestr` and `leval` functions, which provide functionality similar to Python's `repr` and `eval`. However, instead of executing potentially unsafe code, these functions operate within a JSON framework. This approach significantly improves security by ensuring that the data transformation is safe and predictable.
+5. **Secure `lestr` and `leval` Functions:**  
+   These functions emulate Python’s `repr` and `eval` safely within a JSON framework, eliminating code injection risks.
 
-6. **Enhanced UTF-8 Handling:**  
-   The `encode_direct` and `decode_direct` functions have been updated to manage UTF-8 encoding and decoding in a more robust manner. This eliminates common errors such as "utf-8 can't decode ??? character" and ensures that all text data is handled consistently and correctly.
+6. **Robust UTF-8 Handling:**  
+   The `encode_direct` and `decode_direct` functions now manage UTF-8 encoding/decoding reliably, preventing common errors like "utf-8 can't decode ??? character."
 
 ---
 
-## Detailed Evolution from v1 to v2
+## Evolution from v2 to v3
 
-### What Changed from LeCatchu v1?
+### What Changed from v2?
 
-- **Performance Improvements:**  
-  Benchmark tests demonstrate that v2 consistently outperforms v1 across multiple scenarios. For instance, overall processing time and individual function benchmarks (encryption, decryption, encoding, decoding) have been reduced by noticeable margins.
+- **Critical Security Fix:**  
+   In v2, the `hash_stream` function produced inconsistent key streams for `xbase`>1. v3 corrects this by aggregating all `xbase` hashes, enhancing security.
 
-- **Hash Algorithm Overhaul:**  
-  In v1, the hash mechanism, while functional, incurred significant performance penalties due to repetitive SHA-256 computations. In v2, the hash algorithm has been restructured to use a streamlined approach that maintains the requirement for rehashing the key on each character, but does so more efficiently.
+- **Hash System Optimization:**  
+   Post-fix slowdown (0.0005 seconds) was addressed by adopting Blake2b and caching, achieving a 1.5x speed increase over v2’s hash system. Users can verify this by reverting to SHA-256 and testing against v2.
 
-- **Encoding/Decoding Enhancements:**  
-  The type-checking logic within the encoding and decoding routines has been refined, making these operations more resilient and faster. The previous mechanism has been replaced with a more direct and Pythonic approach.
+- **Performance Boost:**  
+   Benchmarks show v3 outperforms v2, particularly in hash-intensive operations like large data and multi-key scenarios.
 
-- **New lestr and leval Functions:**  
-  In addition to the core encryption and encoding functions, v2 introduces `lestr` and `leval`. These functions safely emulate the behavior of `repr` and `eval` by serializing and deserializing data within a JSON context. This provides a safer alternative to executing code dynamically.
-
-- **Robust UTF-8 Error Handling:**  
-  Issues related to incorrect decoding of UTF-8 data, which were a recurring source of errors in v1, have been addressed. The new direct encoding/decoding functions now handle UTF-8 data with greater reliability, reducing error messages and ensuring data integrity.
+- **Code Refinement:**  
+   Streamlined loops, improved memory management, and better error handling make v3 smoother and more efficient.
 
 ### Performance Benchmark Comparisons
 
-Below are the detailed benchmark results comparing LeCatchu v1 and LeCatchu v2:
+Below are benchmark results comparing LeCatchu v2 and v3:
 
 #### Overall Speed Test
-- **LeCatchu v1:** 0.017496193408966066 seconds  
-- **LeCatchu v2:** 0.016668266773223880 seconds
+- **v2:** 0.016668 seconds  
+- **v3:** 0.0159 seconds (~5% improvement)
 
-#### 1024 Byte Data Encryption/Decryption
-- **Encryption:**
-  - **v1:** 0.007448419729868571 seconds  
-  - **v2:** 0.006999042828877767 seconds
-- **Decryption:**
-  - **v1:** 0.007452522913614909 seconds  
-  - **v2:** 0.00701100746790568 seconds
-
-#### 1024 Byte Data Encoding/Decoding
-- **Encoding:**
-  - **v1:** 0.0001593788464864095 seconds  
-  - **v2:** 0.00015691041946411133 seconds
-- **Decoding:**
-  - **v1:** 0.000249780019124349 seconds  
-  - **v2:** 0.00024852752685546877 seconds
+#### 1024-Byte Data Encryption/Decryption
+- **Encryption:**  
+  - v2: 0.006999 seconds  
+  - v3: 0.006512 seconds  
+- **Decryption:**  
+  - v2: 0.007011 seconds  
+  - v3: 0.006498 seconds  
 
 #### Large-Scale Text Tests (100,000 characters)
-- **Large Text Encoding:** 0.019929 seconds  
-- **Large Text Decoding:** 0.046407 seconds
+- **Encoding:** 0.019889 seconds  
+- **Decoding:** 0.046557 seconds  
 
-#### Multiple Keys Encryption/Decryption (50 keys)
-- **Multiple Keys Encryption:** 0.004045 seconds  
-- **Multiple Keys Decryption:** 0.003931 seconds
+#### Multi-Key Encryption/Decryption (50 keys)
+- **Encryption:** 0.003664 seconds  
+- **Decryption:** 0.003599 seconds  
 
-#### Additional Security and Integrity Tests
-- **Key Collision Resistance Test:** Passed  
-- **Reverse Character Encoding/Decoding Test:**  
-  - Time: 0.000069 seconds (Passed)  
-- **Entropy Test on Large Data:**  
-  - Measured Entropy: 16.520679, indicating high randomness  
-- **Hash Collision with Complex Keys Test:** Passed  
-- **Differential Cryptanalysis Test:** Passed
+#### Security and Integrity Tests
+- **Key Collision Resistance:** Passed  
+- **Reverse Character Encoding/Decoding:**  
+  - Time: 0.000064 seconds (Passed)  
+- **Entropy on Large Data:** 16.519591 (high randomness)  
+- **Hash Collision with Complex Keys:** Passed  
+- **Differential Cryptanalysis:** Passed  
 
-*Note:* Although LeCatchu v2 exhibits overall performance improvements, multi-key usage in certain scenarios showed a slight slowdown compared to v1. This is a known area of focus for future updates.
+*Note:* v3’s optimizations offset the post-fix slowdown. To confirm, remove Blake2b and caching, revert to SHA-256, and compare with v2’s hash stream performance.
 
 ---
 
 ## Key Features in Detail
 
-### Optimized and Fast
-LeCatchu v2’s core functionality has been meticulously optimized. The changes include refined loops, efficient memory handling, and minimized overhead in repeated operations. This ensures that the engine not only delivers stronger security but also performs faster under heavy workloads.
+### Fast and Optimized
+v3 delivers high performance with refined loops, efficient memory use, and reduced overhead, excelling even under heavy workloads.
 
 ### Revamped Hash Algorithm
-The hash algorithm in v2 has been overhauled to strike a better balance between security and speed. Although it continues to rehash the key after processing each character – a requirement for maintaining robust encryption – the new approach minimizes redundant computations, thereby reducing the processing time per character.
+Switching to Blake2b with caching ensures faster, secure hashing while preserving per-character key rehashing.
 
-### Enhanced Type-Checking in Encoding/Decoding
-The encoding (`encode`) and decoding (`decode`) functions now feature a more efficient mechanism for verifying input types. This streamlining leads to fewer runtime errors and ensures that the functions operate only on valid inputs, further boosting performance.
+### Enhanced Type-Checking
+The `encode` and `decode` functions process only valid inputs, reducing errors and boosting efficiency.
 
-### Secure lestr and leval Functions
-The new `lestr` and `leval` functions are designed to safely serialize and deserialize data. Unlike Python's native `repr` and `eval`, which can execute arbitrary code, these functions operate within a JSON framework. This design choice offers a secure way to mimic these functionalities, thereby reducing the risk of code injection and other security vulnerabilities.
+### Secure `lestr` and `leval`
+JSON-based serialization/deserialization provides a safe alternative to `repr` and `eval`, minimizing security risks.
 
-### Robust UTF-8 Handling with Direct Functions
-The `encode_direct` and `decode_direct` functions have been updated to handle UTF-8 encoding/decoding more gracefully. They ensure that encoding issues, such as those caused by unexpected characters or encoding errors ("utf-8 can't decode ??? character"), are effectively mitigated. This reliability is especially important in environments where data integrity is critical.
+### Robust UTF-8 Handling
+Improved `encode_direct` and `decode_direct` functions ensure reliable UTF-8 processing and data integrity.
 
 ---
 
 ## Future Developments
 
-While LeCatchu v2 represents a significant advancement over v1, the journey toward an ideal encryption engine is ongoing. Planned improvements for future releases include:
-- **Further Optimization of Multi-Key Performance:**  
-  Addressing the slight slowdown observed in multi-key scenarios.
-- **Enhanced Parallel and Asynchronous Processing:**  
-  Leveraging multi-threading or asynchronous techniques to further reduce processing times.
-- **Refinements to the Hash Algorithm:**  
-  Exploring additional methods to streamline the rehashing process while maintaining cryptographic strength.
-- **Integration of Salt and Initialization Vectors (IV):**  
-  Introducing these elements to ensure that repeated encryptions with the same key yield different outputs.
-- **Extended Security Testing and Feature Expansion:**  
-  Continuously incorporating feedback from the community to improve both functionality and security.
+LeCatchu v3 is a significant step forward, but the journey continues. Planned enhancements include:
+- **Multi-Key Performance:** Further optimization for multi-key scenarios.  
+- **Parallel Processing:** Leveraging multi-threading or async techniques for greater speed.  
+- **Salt and IV Integration:** Ensuring unique outputs for repeated encryptions with the same key.  
+- **Extended Testing:** Incorporating community feedback for ongoing security and feature improvements.
 
 ---
 
 ## Conclusion
 
-LeCatchu v2 marks a major leap forward in the evolution of our encryption engine. It successfully merges enhanced performance with robust security measures, providing an efficient solution for both simple and complex cryptographic needs. While multi-key processing requires further refinement, v2 stands as a testament to the power of iterative improvement and innovative cryptographic design.
+LeCatchu v3 advances the encryption engine by fixing a critical security flaw from v2 and boosting hash performance by 1.5x. Designed with its users in mind (yes, you!), it offers a fast, secure solution for diverse cryptographic needs. Curious about the optimization? Revert to SHA-256, remove Blake2b caching, and test it against v2—you’ll see the difference.
 
-We invite you to explore, test, and contribute to LeCatchu v2. Your feedback is crucial for the continued evolution of this project.
+We invite you to explore, test, and contribute to LeCatchu v3. Your feedback drives this project forward.
 
-**Version:** 2  
-**Engine File:** `lecatchu_v2.py`  
-**Test Suite:** (Updated test suite reflecting v2 benchmarks)
+**Version:** 3  
+**Engine File:** `lecatchu_v3.py`  
+**Test Suite:** `lecatchu_v3_test.py`
 
 ---
 
