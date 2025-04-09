@@ -1,5 +1,7 @@
 LeCatchu VS Other Cryptographics.
 
+**This test maked with LeCatchu v2**
+
 Entropy Calculate (Cryptographic Entropy is calculated with big data):
 
 AES Entropy: 7.8 - 8.1
