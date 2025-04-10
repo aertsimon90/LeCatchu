@@ -1,6 +1,7 @@
 # LeCatchu v3
 
 ![LeCatchu Logo](LeCatchu.png)
+[Discord](https://discord.gg/ev6AJzt32X) | [Reddit](https://www.reddit.com/r/LeCatchu/s/AdwugeAmL4) | [YouTube](https://youtube.com/@aertsimon90?si=zaH8BkmmxdbI4ziv) | [Instagram](https://www.instagram.com/ertanmuz/profilecard/?igsh=aWxwb3ZpNDhnbTIx)
 
 ### Technical Information
 
