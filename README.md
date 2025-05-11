@@ -124,8 +124,8 @@ if new_engine.save() == engine.save():
 
 # Try database
 db = lecatchu.LeCatchu_Database("global_key123", engine=new_engine)
-db.set("global_key", "users", "users_key123", {"aertsimon90": "password123", "ruhicenet": "ruhi123"}) # Create a cell with users data
-data = db.get("global_key", "users", "users_key123")
+db.set("global_key123", "users", "users_key123", {"aertsimon90": "password123", "ruhicenet": "ruhi123"}) # Create a cell with users data
+data = db.get("global_key123", "users", "users_key123")
 print("Users Data:", data)
 db.save("database.ledb") # Save Database
 db.load("database.ledb") # Load Database
