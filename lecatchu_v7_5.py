@@ -68,7 +68,7 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
     def __sep_encode(self, string): # Error-free encoding of string data (all characters supported) (with seperator)
         return bytes([255]).join([self.sbox[i] for i in string])
     def decode(self, bytestext): # Decode the byte data (all characters are supported and if an error occurs in the encryption or if the sbox is not suitable, the corresponding states may differ on both sides)
-        return "".join([self.resbox[i] for i in [bytestext[i:i+3] for i in range(0, len(bytestext), 3)]])
+        return "".join([self.resbox[bytestext[i:i+3]] for i in range(0, len(bytestext), 3)])
     def __sep_decode(self, bytestext): # Decode the byte data (all characters are supported and if an error occurs in the encryption or if the sbox is not suitable, the corresponding states may differ on both sides) (with seperator)
         return "".join([self.resbox[i] for i in bytestext.split(bytes([255]))])
     @lru_cache(maxsize=128)
