@@ -75,7 +75,7 @@ sequence of 2 text (1 byte changed) with same key: 0.9995119570522206
 sequence of 2 text (1 byte changed) with same key (with iv): 0.031237797735259663
 sequence of 2 same text with same key (with iv): 0.015625
 
-entropy test:
+entropy test (with just input has "." character)
 
 shannon entropy of 1024 bytes encrypted text (8-bit 0-1 range): 0.9771804400081715
 shannon entropy of 10240 bytes encrypted text (8-bit 0-1 range): 0.997828037105196
