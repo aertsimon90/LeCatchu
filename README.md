@@ -102,3 +102,10 @@ It’s been a long time since a new encryption engine was created. They said, �
 But there’s more to this engine’s brilliance: the **sboxseed** feature. By setting a custom `sboxseed` during initialization, you generate a unique substitution box (sbox) tailored specifically to your data. This means your encoded text isn’t just encrypted—it’s transformed into a format that’s completely unique and unpredictable. No two sbox configurations are identical unless the same seed is used, adding an extra layer of protection that makes reverse-engineering a near-impossible task. This customization ensures your data is as secure as it is unique, setting LeCatchu apart from any other cryptographic system.
 
 LeCatchu v7.5 isn’t just a tool—it’s a revolution in cryptography. With its infinite keyspace, near-perfect entropy, unique sbox customization, and optional IV/nonce support for maximum unpredictability, it stands as one of the most secure encryption systems ever created. Whether you’re protecting sensitive communications, securing data for IP programming, or safeguarding information in resource-constrained environments, LehnCATH4 delivers unmatched security. Don’t worry about quantum computers—LeCatchu v7.5 is built to outsmart them all. This is cryptography at its finest, my friend.
+
+Test Result Graphics:
+
+![Test1](chart.png)  
+![Test2](chart2.png)  
+![Test3](chart3.png)  
+![Test4](chart4.png)  
