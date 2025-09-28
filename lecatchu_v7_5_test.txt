@@ -1,0 +1,85 @@
+encrypting/decrypting speed test:
+
+1024 byte encrypting speed: 0.0019544923305511476
+1024 byte decrypting speed: 0.0019931361079216004
+1024 byte encrypting speed (with iv): 0.006322902739048004
+1024 byte decrypting speed (with iv): 0.006372496485710144
+1024 byte encrypting speed (xbase=10): 0.015612209737300873
+1024 byte decrypting speed (xbase=10): 0.015684365034103392
+1024 byte encrypting speed (xbase=10 with iv): 0.023351413905620576
+1024 byte decrypting speed (xbase=10 with iv): 0.006390128135681152
+1024 byte multi-key encrypting speed (3 key): 0.007766962647438049
+1024 byte multi-key decrypting speed (3 key): 0.007872194051742554
+1024 byte multi-key encrypting speed (100 key): 0.10069476127624512
+1024 byte multi-key decrypting speed (100 key): 0.10066835403442383
+1024 byte encrypting with iv speed (xbase=1024,ivxbase=1024,ivlength=1024): 11.84976601600647
+1024 byte decrypting with iv speed (xbase=1024,ivxbase=1024,ivlength=1024): 1.5227699279785156
+how many 1024 byte encrypt in 1 seconds (benchmark): 515
+how many 1 byte encrypt in 1 seconds (benchmark): 720626
+how many 1024 byte encrypt with iv in 1 seconds (benchmark): 155
+how many 1024 byte decrypt in 1 seconds (benchmark): 506
+how many 1 byte decrypt in 1 seconds (benchmark): 701756
+how many 1024 byte decrypt with iv in 1 seconds (benchmark): 134
+
+iv/nonce test:
+
+sequence of 100 encrypted 1024 byte text with same inputs: 1.0
+sequence of 100 encrypted 1024 byte text with same inputs (with iv): 0.02303125
+
+avalanche test:
+
+sequence of 2 text (1 byte changed) with same key: 0.9995119570522206
+sequence of 2 text (1 byte changed) with same key (with iv): 0.014057008980866849
+sequence of 2 same text with same key (with iv): 0.01640625
+
+entropy test:
+
+shannon entropy of 1024 bytes encrypted text (8-bit 0-1 range): 0.9771804400081715
+shannon entropy of 10240 bytes encrypted text (8-bit 0-1 range): 0.997828037105196
+shannon entropy of 104448 bytes encrypted text (8-bit 0-1 range): 0.9998064500196675
+shannon entropy of 1048576 bytes encrypted text (8-bit 0-1 range): 0.9999764891166625
+shannon entropy of 5242880 bytes encrypted text (8-bit 0-1 range): 0.9999956249478799
+
+C:\Users\Administrator\Desktop>python b.py
+encrypting/decrypting speed test:
+
+1024 byte encrypting speed: 0.0019584503769874573
+1024 byte decrypting speed: 0.002004932165145874
+1024 byte encrypting speed (with iv): 0.00635092169046402
+1024 byte decrypting speed (with iv): 0.006377896964550018
+1024 byte encrypting speed (xbase=10): 0.015656130611896513
+1024 byte decrypting speed (xbase=10): 0.015729156136512757
+1024 byte encrypting speed (xbase=10 with iv): 0.023455950915813446
+1024 byte decrypting speed (xbase=10 with iv): 0.006337600946426392
+1024 byte multi-key encrypting speed (3 key): 0.007874020636081695
+1024 byte multi-key decrypting speed (3 key): 0.007856458127498626
+1024 byte multi-key encrypting speed (100 key): 0.10102540493011475
+1024 byte multi-key decrypting speed (100 key): 0.10087663888931274
+1024 byte encrypting with iv speed (xbase=1024,ivxbase=1024,ivlength=1024): 11.940752506256104
+1024 byte decrypting with iv speed (xbase=1024,ivxbase=1024,ivlength=1024): 1.5340919494628906
+how many 1024 byte encrypt in 1 seconds (benchmark): 512
+how many 1 byte encrypt in 1 seconds (benchmark): 724257
+how many 1024 byte encrypt with iv in 1 seconds (benchmark): 153
+how many 1024 byte decrypt in 1 seconds (benchmark): 502
+how many 1 byte decrypt in 1 seconds (benchmark): 705375
+how many 1024 byte decrypt with iv in 1 seconds (benchmark): 149
+
+iv/nonce test:
+
+sequence of 100 encrypted 1024 byte text with same inputs: 1.0
+sequence of 100 encrypted 1024 byte text with same inputs (with iv): 0.023
+
+avalanche test:
+
+sequence of 2 text (1 byte changed) with same key: 0.9995119570522206
+sequence of 2 text (1 byte changed) with same key (with iv): 0.031237797735259663
+sequence of 2 same text with same key (with iv): 0.015625
+
+entropy test:
+
+shannon entropy of 1024 bytes encrypted text (8-bit 0-1 range): 0.9771804400081715
+shannon entropy of 10240 bytes encrypted text (8-bit 0-1 range): 0.997828037105196
+shannon entropy of 104448 bytes encrypted text (8-bit 0-1 range): 0.9998064500196675
+shannon entropy of 1048576 bytes encrypted text (8-bit 0-1 range): 0.9999764891166625
+shannon entropy of 5242880 bytes encrypted text (8-bit 0-1 range): 0.9999956249478799
+shannon entropy of 16777216 bytes encrypted text (8-bit 0-1 range): 0.9999986876076832
