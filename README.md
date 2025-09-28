@@ -1,6 +1,6 @@
 # LeCatchu v7.5 (LehnCATH4)
 
-![LeCatchu Logo](LeCatchu.png) ![LehnCATH4 Logo](LehnCATH4.jpg)
+![LeCatchu Logo](LeCatchu.png)
 
 LeCatchu v7.5, officially branded as **LehnCATH4**, represents a groundbreaking advancement in cryptographic engineering, delivering a lightweight, exceptionally fast, and highly secure engine for encoding and encrypting data. Initially abandoned due to critical flaws in earlier iterations, the LeCatchu project was revitalized with a complete redesign, culminating in version 7.5. This iteration is widely regarded as the most compact, efficient, and secure model in the project's history, setting a new standard for cryptographic systems in terms of performance and reliability.
 
