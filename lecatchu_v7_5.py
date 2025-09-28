@@ -95,9 +95,9 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
         keygen = self.hash_stream(key, xbase)
         return bytes([(bytestarget[i]-next(keygen))%256 for i in range(len(bytestarget))])
     def encrypt_with_iv(self, bytestarget, key, xbase=1, ivlength=256, ivxbase=1):
-    	return self.encrypt(self.addiv(bytestarget, ivlength, ivxbase), key, xbase=1)
+    	return self.encrypt(self.addiv(bytestarget, ivlength, ivxbase), key, xbase=xbase)
     def decrypt_with_iv(self, bytestarget, key, xbase=1, ivlength=256, ivxbase=1):
-    	return self.deliv(self.decrypt(bytestarget, key, xbase=1), ivlength, ivxbase)
+    	return self.deliv(self.decrypt(bytestarget, key, xbase=xbase), ivlength, ivxbase)
     def encrypts(self, bytestarget, keys, xbase=1):
         keygen = self.hash_streams(keys, xbase)
         return bytes([(bytestarget[i]+next(keygen))%256 for i in range(len(bytestarget))])
