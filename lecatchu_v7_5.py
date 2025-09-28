@@ -9,12 +9,12 @@ sys.set_int_max_str_digits((2**31)-1)
 version = 7
 
 class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
-    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=9, encoding_type="packet", data="", mostsecurity=False):
+    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=9, encoding_type="packet", data="", mostsecurity=False, encoding=True, unicodesupport=1114112):
         if len(data) != 0:
             self.__org_encode = self.encode
             self.__org_decode = self.decode
             self.load(data)
-        else:
+        elif encoding:
             self.sbox = {}
             self.resbox = {}
             import random as temprandom
@@ -31,7 +31,7 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
                 temprandom.shuffle(n3list)
             ns = [] # Encoded character list (to be shuffled later)
             unin = 0
-            unim = 1114112 if encoding_type == "packet" else 1114111
+            unim = unicodesupport if encoding_type == "packet" else unicodesupport-1
             for n1 in n1list:
                 if len(ns) >= unim:
                     break
@@ -55,6 +55,14 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
                 self.encode = self.__sep_encode
                 self.decode = self.__sep_decode
             self.encoding_type = encoding_type
+        else:
+            self.encoding_type = encoding_type
+            self.__org_encode = self.encode
+            self.__org_decode = self.decode
+            self.sbox = {};self.resbox = {}
+        self.encoding = encoding
+        self.unicodesupport = unicodesupport
+        self.mostsecurity = mostsecurity
     def encode(self, string): # Error-free encoding of string data (all characters supported)
         return b"".join([self.sbox[i] for i in string])
     def __sep_encode(self, string): # Error-free encoding of string data (all characters supported) (with seperator)
