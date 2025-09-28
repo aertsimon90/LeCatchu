@@ -75,7 +75,7 @@ sequence of 2 text (1 byte changed) with same key: 0.9995119570522206
 sequence of 2 text (1 byte changed) with same key (with iv): 0.031237797735259663
 sequence of 2 same text with same key (with iv): 0.015625
 
-entropy test (with just input has "." character not os.urandom just "."*bytelength)
+entropy test (with just input has "." character not os.urandom just "."*bytelength):
 
 shannon entropy of 1024 bytes encrypted text (8-bit 0-1 range): 0.9771804400081715
 shannon entropy of 10240 bytes encrypted text (8-bit 0-1 range): 0.997828037105196
@@ -83,3 +83,12 @@ shannon entropy of 104448 bytes encrypted text (8-bit 0-1 range): 0.999806450019
 shannon entropy of 1048576 bytes encrypted text (8-bit 0-1 range): 0.9999764891166625
 shannon entropy of 5242880 bytes encrypted text (8-bit 0-1 range): 0.9999956249478799
 shannon entropy of 16777216 bytes encrypted text (8-bit 0-1 range): 0.9999986876076832
+
+entropy test (with os.urandom input):
+
+shannon entropy of 1024 bytes encrypted text (8-bit 0-1 range): 0.9741801459130278
+shannon entropy of 10240 bytes encrypted text (8-bit 0-1 range): 0.9977039158072829
+shannon entropy of 104448 bytes encrypted text (8-bit 0-1 range): 0.9997807323767979
+shannon entropy of 1048576 bytes encrypted text (8-bit 0-1 range): 0.9999797793453384
+shannon entropy of 5242880 bytes encrypted text (8-bit 0-1 range): 0.9999951275624019
+shannon entropy of 16777216 bytes encrypted text (8-bit 0-1 range): 0.9999986337954212
