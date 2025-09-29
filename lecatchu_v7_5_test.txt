@@ -1,3 +1,5 @@
+Note: The speed results shown in the speed tests are the average of the results obtained after 800 tests using the same engine. While the LeCatchu engine can be 3-3.5 times slower on the first attempt, it performs much faster on all subsequent attempts with the same password. This is because a portion of the hash results is kept in memory during hashing. However, this retention feature should be reflected in the tests.
+
 encrypting/decrypting speed test:
 
 1024 byte encrypting speed: 0.0019584503769874573
