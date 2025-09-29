@@ -30,9 +30,9 @@ sequence of 100 encrypted 1024 byte text with same inputs (with iv): 0.023
 
 avalanche test:
 
-sequence of 2 text (1 byte changed) with same key: 0.9995119570522206
-sequence of 2 text (1 byte changed) with same key (with iv): 0.031237797735259663
-sequence of 2 same text with same key (with iv): 0.015625
+sequence of 2 text (1 byte changed) with same key: 0.9995119570522206 similarity
+sequence of 2 text (1 byte changed) with same key (with iv): 0.031237797735259663 similarity
+sequence of 2 same text with same key (with iv): 0.015625 similarity
 
 entropy test (with just input has "." character not os.urandom just "."*bytelength):
 
