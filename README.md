@@ -111,7 +111,7 @@ For questions, suggestions, or just to say thank you—open an issue. Your voice
 ## Shh 🤫 Look Here  
 Welcome to the secret heart of **LeCatchu v8**, the most legendary hidden section that has been passed down through every single version of this cryptographic masterpiece. If you’re reading this, you’ve earned the right to witness the true, unfiltered power behind **LehnCATH4 v8** — a machine so far ahead of its time that it laughs in the face of quantum computers, nation-state cryptanalysts, and anyone who ever said “just use AES.” Buckle up. You’re about to see why this 280-line miracle is untouchable.
 
-You already know about **xbase** and **sboxseed** from the old days. In v8, they didn’t just get better — they became gods.
+You already know about **xbase** and **sboxseed** from the old days. In v8, they didn’t just get better — they became unbreakable walls.
 
 ### xbase — The Infinite Keyspace That Broke Mathematics
 This single integer is no longer just “big.” It is literally infinite in practice.
