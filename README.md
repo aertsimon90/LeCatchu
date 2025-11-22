@@ -85,6 +85,8 @@ Both modes support identical encryption, TAC, IV, and serialization features.
 - Always wrap sensitive payloads with TAC.
 - Cache and reuse engine instances—never recreate on every request.
 
+**Never bypass this: (Security Guild)[security_guild.txt]**
+
 ## Limitations
 
 - Full sbox mode still requires 5–10 seconds at startup.
