@@ -55,7 +55,7 @@ This architectural duality is what elevates v8 far beyond any previous version.
   A complete, drop-in encrypted socket layer with automatic handshake, mutual verification, optional double IV, and one-line API. Designed from the ground up for chat servers, remote administration tools, IoT gateways, and multiplayer games.
 
 - **Enhanced IV Controls** – separate `ivxbase` and `ivinterval` for surgical precision over the nonce layer.
-- **`mostsecurity=True`** – additional shuffling passes during sbox creation for the truly paranoid.
+- **`shufflesbox=True`** – additional shuffling passes during sbox creation for the truly paranoid.
 
 ## Installation
 
@@ -148,8 +148,8 @@ So v8 gave you the red button:
 
 Use it wisely. Or don’t. The choice is yours — and only v8 trusts you enough to give it to you.
 
-### sboxseed + mostsecurity + encoding=False → The Holy Trinity of Flexibility
-- Want the classic 8-second unbreakable fortress with a unique sbox for every user? → `encoding=True`, custom `sboxseed`, `mostsecurity=True`
+### sboxseed + shufflesbox + encoding=False → The Trinity of Flexibility
+- Want the classic 8-second unbreakable fortress with a unique sbox for every user? → `encoding=True`, custom `sboxseed`, `shufflesbox=True`
 - Want an engine that starts in **0.004 seconds** and still obliterates anything else in speed + security? → `encoding=False`
 - Want both at the same time in the same codebase? → You now have it.
 
