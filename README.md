@@ -85,7 +85,7 @@ Both modes support identical encryption, TAC, IV, and serialization features.
 - Always wrap sensitive payloads with TAC.
 - Cache and reuse engine instances—never recreate on every request.
 
-**Never bypass this:** [Security Guild](security_guild.txt)
+**Never bypass this:** [Security Guide](security_guide.md)
 
 ## Limitations
 
