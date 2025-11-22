@@ -68,7 +68,7 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
         self.mostsecurity = mostsecurity
         self.__org_cached_blake2b = self.cached_blake2b
         if self.special_exchange:
-        	self.cached_blake2b = self.__special_exchanged_cached_blake2b
+            self.cached_blake2b = self.__special_exchanged_cached_blake2b
     def encode(self, string): # Error-free encoding of string data (all characters supported)
         return b"".join([self.sbox[i] for i in string])
     def __sep_encode(self, string): # Error-free encoding of string data (all characters supported) (with seperator)
