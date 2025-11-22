@@ -122,10 +122,10 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
     def decrypt(self, bytestarget, key, xbase=1, interval=1):
         keygen = self.hash_stream(key, xbase, interval)
         return bytes([(bytestarget[i]-next(keygen))%256 for i in range(len(bytestarget))])
-    def encrypt_with_iv(self, bytestarget, key, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1):
-    	return self.encrypt(self.addiv(bytestarget, ivlength, ivxbase, ivinterval), key, xbase, interval)
-    def decrypt_with_iv(self, bytestarget, key, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1):
-    	return self.deliv(self.decrypt(bytestarget, key, xbase, interval), ivlength, ivxbase, ivinterval)
+    def encrypt_with_iv(self, bytestarget, key, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1): # recommended
+        return self.encrypt(self.addiv(bytestarget, ivlength, ivxbase, ivinterval), key, xbase, interval)
+    def decrypt_with_iv(self, bytestarget, key, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1): # recommended
+        return self.deliv(self.decrypt(bytestarget, key, xbase, interval), ivlength, ivxbase, ivinterval)
     def encrypts(self, bytestarget, keys, xbase=1, interval=1):
         keygen = self.hash_streams(keys, xbase, interval)
         return bytes([(bytestarget[i]+next(keygen))%256 for i in range(len(bytestarget))])
@@ -138,71 +138,71 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
         return bytes([ord(i) for i in text])
     def decode_direct(self, bytestext):
         return "".join([chr(bytestext[i]) for i in range(len(bytestext))])
-    def add_tactag(self, bytestext, ext=b"MTG"): # Text Authentication Code (TAC) Before the data is encrypted, a TAC tag is added and after it is decrypted, it is checked to ensure that the encryption has extracted the correct data. Otherwise, if your encryption is done incorrectly, you will only get an empty random data stack.
-        ext = str(self.process_hash(ext)).encode()
-        return b"".join([ext, b"MTG1", bytestext, b"1", ext])
-    def check_tactag(self, bytestext, ext=b"MTG"):
-        ext = str(self.process_hash(ext)).encode()
-        text = self.decode_direct(bytestext)
-        ext = self.decode_direct(ext)
-        if text.startswith(ext+"MTG1") and text.endswith("1"+ext):
-            return self.encode_direct(text[4+len(ext):][:-1-len(ext)])
+    def add_tactag(self, bytestext, ext=b"MTG", extxbase=1, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1): # Text Authentication Code (TAC) Before the data is encrypted, a TAC tag is added and after it is decrypted, it is checked to ensure that the encryption has extracted the correct data. Otherwise, if your encryption is done incorrectly, you will only get an empty random data stack.
+        ext2 = str(self.process_hash(ext, extxbase)).encode()
+        return self.encrypt_with_iv(ext2+bytestext+ext2, ext2, xbase, interval, ivlength, ivxbase, ivinterval)
+    def check_tactag(self, bytestext, ext=b"MTG", extxbase=1, xbase=1, interval=1, ivlength=256, ivxbase=1, ivinterval=1):
+        ext2 = str(self.process_hash(ext, extxbase)).encode()
+        bytestext = self.decrypt_with_iv(bytestext, ext2, xbase, interval, ivlength, ivxbase, ivinterval)
+        bytestext = self.decode_direct(bytestext)
+        ext2 = self.decode_direct(ext2)
+        if bytestext.startswith(ext2) and bytestext.endswith(ext2):
+            return self.encode_direct(bytestext[len(ext2):][:-len(ext2)])
         else:
             raise ValueError("Check failed: TAC tag not found or invalid.")
     def save(self):
-    	sbox = {}
-    	for i1, i2 in self.sbox.items():
-    		bl = ",".join([str(i2[i]) for i in range(3)]) # listed bytes
-    		sbox[i1] = bl
-    	return json.dumps({"sbox": sbox, "encoding_type": self.encoding_type, "special_exchange": self.special_exchange, "version": 8})
+        sbox = {}
+        for i1, i2 in self.sbox.items():
+            bl = ",".join([str(i2[i]) for i in range(3)]) # listed bytes
+            sbox[i1] = bl
+        return json.dumps({"sbox": sbox, "encoding_type": self.encoding_type, "special_exchange": self.special_exchange, "version": 8})
     def load(self, data):
         data = json.loads(data)
         if data["version"] == 8:
             self.sbox = {}
             self.resbox = {}
             for i1, bl in data["sbox"].items():
-            	i2 = bytes([int(i) for i in bl.split(",")])
-            	self.sbox[i1] = i2
-            	self.resbox[i2] = i1
+                i2 = bytes([int(i) for i in bl.split(",")])
+                self.sbox[i1] = i2
+                self.resbox[i2] = i1
             self.encoding_type = data["encoding_type"]
             if data["encoding_type"] == "packet":
-            	self.encode = self.__org_encode
-            	self.decode = self.__org_decode
+                self.encode = self.__org_encode
+                self.decode = self.__org_decode
             else:
-            	self.encode = self.__sep_encode
-            	self.decode = self.__sep_decode
+                self.encode = self.__sep_encode
+                self.decode = self.__sep_decode
             self.special_exchange = data["special_exchange"]
             if data["special_exchange"]:
-            	self.cached_blake2b = self.__special_exchanged_cached_blake2b
+                self.cached_blake2b = self.__special_exchanged_cached_blake2b
             else:
-            	self.cached_blake2b = self.__org_cached_blake2b
+                self.cached_blake2b = self.__org_cached_blake2b
         else:
-        	raise ValueError("Invalid version.")
+            raise ValueError("Invalid version.")
     def load_only_encoding(self, data):
         data = json.loads(data)
         if data["version"] == 8:
             self.sbox = {}
             self.resbox = {}
             for i1, bl in data["sbox"].items():
-            	i2 = bytes([int(i) for i in bl.split(",")])
-            	self.sbox[i1] = i2
-            	self.resbox[i2] = i1
+                i2 = bytes([int(i) for i in bl.split(",")])
+                self.sbox[i1] = i2
+                self.resbox[i2] = i1
             self.encoding_type = data["encoding_type"]
             if data["encoding_type"] == "packet":
-            	self.encode = self.__org_encode
-            	self.decode = self.__org_decode
+                self.encode = self.__org_encode
+                self.decode = self.__org_decode
             else:
-            	self.encode = self.__sep_encode
-            	self.decode = self.__sep_decode
+                self.encode = self.__sep_encode
+                self.decode = self.__sep_decode
         else:
-        	raise ValueError("Invalid version.")
+            raise ValueError("Invalid version.")
     def addiv(self, data, length=256, xbase=1, interval=1): # IV/nonce (Initialization Vector) Add IV
-    	key = os.urandom(length)
-    	return key+self.encrypt(data, key, xbase, interval)
+        key = os.urandom(length)
+        return key+self.encrypt(data, key, xbase, interval)
     def deliv(self, data, length=256, xbase=1, interval=1): # Remove IV
-    	key = data[:length];data = data[length:]
-    	return self.decrypt(data, key, xbase, interval)
-   
+        key = data[:length];data = data[length:]
+        return self.decrypt(data, key, xbase, interval)
 class ParallelStreamCipher: # for IP programming
 	def __init__(self, engine=None, key="Lehncrypt", xbase=1, interval=1, iv=True, ivlength=256, ivxbase=1, ivinterval=1):
 		if engine == None:
