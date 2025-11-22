@@ -163,8 +163,6 @@ With LeCatchu v8 you now control:
 - ∞ possible IV behaviors  
 - ∞ layers of TAC
 
-That’s infinity × infinity × infinity × infinity × infinity.
-
 To produce the same output twice, the attacker would need to guess:
 - your exact key  
 - your exact xbase  
