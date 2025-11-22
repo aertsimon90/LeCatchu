@@ -135,7 +135,7 @@ This is per-user, per-device, per-session, per-company cryptographic isolation �
 This is plausible deniability on steroids.  
 This is the reason two LeCatchu v8 engines can sit side by side and never, ever speak the same language unless you explicitly want them to.
 
-### interval — When You Want to Trade a Little Security for God-Tier Speed
+### interval — When You Want to Trade a Little Security for Maximum-Tier Speed
 Yes, we know. “Never reduce security.”  
 But sometimes you’re encrypting 50 GB of sensor data per second or streaming 4K video in real time.  
 So v8 gave you the red button:
