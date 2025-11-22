@@ -68,7 +68,7 @@ Requires only Python 3.6+ and the standard library.
 
 Initialize in fortress mode (maximum security):
 ```python
-engine = LeCatchu_Engine(sboxseed="my fortress seed", encoding=True, shufflesbox=True)
+engine = LeCatchu_Engine(sboxseed="my fortress seed", encoding=True, shufflesbox=True, special_exchange="MyFortress")
 ```
 
 Initialize in real-time mode (instant start):
