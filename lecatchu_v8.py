@@ -10,7 +10,7 @@ sys.set_int_max_str_digits((2**31)-1)
 version = 8
 
 class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
-    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=9, encoding_type="packet", data="", mostsecurity=False, encoding=False, unicodesupport=1114112, special_exchange=None):
+    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=9, encoding_type="packet", data="", shufflesbox=False, encoding=False, unicodesupport=1114112, special_exchange=None):
         self.special_exchange = special_exchange
         if len(data) > 0:
             self.__org_encode = self.encode
@@ -24,13 +24,13 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
             temprandom.seed(self.process_hash(sboxseed, sboxseedxbase))
             mxn = 256 if encoding_type == "packet" else 255
             n1list = list(range(mxn)) # List of first base characters of sbox encoded forms
-            if mostsecurity:
+            if shufflesbox:
                 temprandom.shuffle(n1list)
             n2list = list(range(mxn)) # List of second base characters of sbox encoded forms
-            if mostsecurity:
+            if shufflesbox:
                 temprandom.shuffle(n2list)
             n3list = list(range(mxn)) # List of third base characters of sbox encoded forms
-            if mostsecurity:
+            if shufflesbox:
                 temprandom.shuffle(n3list)
             ns = [] # Encoded character list (to be shuffled later)
             unin = 0
@@ -46,7 +46,7 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
                            break
                         n = bytes([n1, n2, n3])
                         ns.append(n)
-            if mostsecurity:
+            if shufflesbox:
                 temprandom.shuffle(ns) # shuffle
             for n in ns: # Define sbox characters and their equivalents
                 self.sbox[chr(unin)] = n
@@ -65,7 +65,7 @@ class LeCatchu_Engine: # LeCatchu LehnCATH4 Engine
             self.sbox = {};self.resbox = {}
         self.encoding = encoding
         self.unicodesupport = unicodesupport
-        self.mostsecurity = mostsecurity
+        self.shufflesbox = shufflesbox
         self.__org_cached_blake2b = self.cached_blake2b
         if self.special_exchange:
             self.cached_blake2b = self.__special_exchanged_cached_blake2b
