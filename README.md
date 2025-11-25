@@ -7,7 +7,7 @@ Boasting a **Shannon entropy of 0.999999**—a value so extraordinarily close to
 
 Where v7.5 still carried the famous 5–10 second initialization delay as its only real drawback, v8.2 obliterates that limitation entirely when desired: by simply disabling the substitution layer (`encoding=False`), the engine now starts in **under 0.01 seconds**—often instantly—while retaining full stream-cipher, IV, TAC, and networking capabilities. When maximum obfuscation is required, the full sbox can still be enabled, preserving the legendary 8-second “fortress mode” that made LeCatchu famous.
 
-LeCatchu v8 is the lifelong creation and passion of **Simon Scap**, a solitary developer who proved that world-class, future-proof cryptography does not require corporations, grants, or thousands of lines of C—it can be born from pure intellect, determination, and elegance.
+LeCatchu v8.2 is the lifelong creation and passion of **Simon Scap**, a solitary developer who proved that world-class, future-proof cryptography does not require corporations, grants, or thousands of lines of C—it can be born from pure intellect, determination, and elegance.
 
 ## About the Engine
 
@@ -134,7 +134,7 @@ If you’re reading this, you already belong to the very small circle that under
 
 Buckle up. You’re about to see why v8.2 didn’t just raise the bar — it erased it.
 
-### xbase — The Parameter That Killed Brute-Force Forever
+### xbase — The Parameter That Killed Key Collision
 One integer. Infinite terror for attackers.
 
 - `xbase=1` → 77-digit internal states  
@@ -163,11 +163,10 @@ Only LeCatchu trusts you enough to hand you this red button.
 - `encoding=True` + `shufflesbox=True` → every single byte position independently shuffled — your personal 3-byte Unicode table becomes a unique snowflake  
 - Both modes coexist in the same import. Choose at runtime.
 
-### encrypt_hard() / decrypt_hard() — The “One Cipher to End All Ciphers”
+### encrypt_hard() / decrypt_hard() — The “One Strong Cipher”
 New in v8.2: a single function that turns **every single parameter** (IV length, xbase, interval, number of passes, chaining on/off, multi-key count, chain block size, even whether TAC is used) into a deterministic but unpredictable function of the master key itself.  
 Every message you send becomes its own unique, never-repeating cryptographic algorithm.  
 No two ciphertexts on the planet use the same settings unless they share the exact same key.  
-This is what “post-quantum” wishes it could be.
 
 ### LeCatchu Authenticated Armor (LCA)
 TAC tags + optional left/right custom-CBC chaining + optional right-side reverse chaining + final stream pass + entropy scoring — all in < 200 lines.
