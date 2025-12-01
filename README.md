@@ -42,7 +42,7 @@ This architectural duality is what elevates v9 far beyond any previous version.
 
 ### Core Engine & Design Changes (v9 Updates)
 
-  * **Code Footprint Optimization:** The Core Engine file size has been minimized from \~280 LOC (v8.2) to **\~215 LOC** (v9), making it even lighter and easier to audit.
+  * **Code Footprint Optimization:** The Core Engine file size has been minimized from \~230 LOC (v8.2) to **\~215 LOC** (v9), making it even lighter and easier to audit.
   * **Hardened Integrity Checks:** The `check_tactag` logic now uses **direct byte comparison** for authentication instead of string conversion, eliminating potential encoding pitfalls and making integrity checks faster and more robust.
   * **Walrus Operator Optimization:** Core hash generation loops (`process_hash` and `hash_stream`) now utilize Python's **Walrus Operator (`:=`)** for clean, highly efficient, one-line state management and hash stream production.
   * **DRNG (Deterministic Random Number Generator):** Introduction of the **`LeRandom`** class to provide cryptographically secure and reproducible random numbers directly derived from the engine's hash stream, perfect for deterministic shuffles and parameter selection.
