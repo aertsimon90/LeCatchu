@@ -57,6 +57,36 @@ class LeCatchu_Engine:
         for h in target.split(self.seperator):
             new += chr(self.coding_sbox.index(h))
         return new
+    
+    def generate_key(self, seed):
+        keyn = 0
+        for h in seed:
+            keyn += ord(h)**1.28264927264
+            keyn = keyn/1.382628472
+            keyn = keyn*1.372638388
+        keyn = keyn**2.31693169
+        keyn = int(keyn)
+        if keyn%2 == 0:
+            return -keyn
+        else:
+            return keyn
+    
+    def encrypt(self, content, keyn):
+        new = ""
+        for h in content:
+            h = ord(h)
+            new += chr((h+keyn)%1114112)
+            keyn += int(h**2.382728428)
+        return new
+    
+    def decrypt(self, content, keyn):
+        new = ""
+        for h in content:
+            h = ord(h)
+            h = (h-keyn)%1114112
+            keyn += int(h**2.382728428)
+            new += chr(h)
+        return new
 
     def generate_keys(self, seed, count=10):
         key = 0
