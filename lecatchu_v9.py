@@ -11,7 +11,7 @@ sys.set_int_max_str_digits((2**31)-1)
 version = 9
 
 class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
-    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=1, encoding_type="packet", data="", shufflesbox=False, encoding=False, unicodesupport=1114112, special_exchange=None):
+    def __init__(self, sboxseed="Lehncrypt", sboxseedxbase=1, encoding_type="packet", data="", shufflesbox=False, seperatorprov=True, encoding=False, unicodesupport=1114112, perlength=3, special_exchange=None):
         self.special_exchange = special_exchange
         if len(data) > 0:
             self.__org_encode = self.encode
@@ -24,39 +24,22 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
             import random as temprandom
             temprandom.seed(self.process_hash(sboxseed, sboxseedxbase))
             mxn = 256 if encoding_type == "packet" else 255
-            n1list = list(range(mxn))
-            n2list = list(range(mxn))
-            n3list = list(range(mxn))
+            if encoding_type == "seperator" and seperatorprov:
+                ns = sum([[bytes(combo) for combo in product(range(mxn), repeat=i+1)] for i in range(perlength)], start=[])
+            else:
+                ns = [bytes(combo) for combo in product(range(mxn), repeat=perlength)]
             if shufflesbox:
-                temprandom.shuffle(n1list)
-                temprandom.shuffle(n2list)
-                temprandom.shuffle(n3list)
-            ns = []  # Encoded character list (to be shuffled later)
-            unin = 0
-            unim = unicodesupport if encoding_type == "packet" else unicodesupport-1
-            for n1 in n1list:
-                if len(ns) >= unim:
-                    break
-                for n2 in n2list:
-                    if len(ns) >= unim:
-                        break
-                    for n3 in n3list:
-                        if len(ns) >= unim:
-                            break
-                        n = bytes([n1, n2, n3])
-                        ns.append(n)
-            if shufflesbox:
-                temprandom.shuffle(ns)  # shuffle
-            for n in ns:  # Define sbox characters and their equivalents
+                temprandom.shuffle(ns)
+            for unin, n in enumerate(ns[:unicodesupport]):  # Define sbox characters and their equivalents
                 self.sbox[chr(unin)] = n
                 self.resbox[n] = chr(unin)
-                unin += 1
             self.__org_encode = self.encode
             self.__org_decode = self.decode
             if encoding_type == "seperator":
                 self.encode = self.__sep_encode
                 self.decode = self.__sep_decode
             self.encoding_type = encoding_type
+            self.perlength = perlength
         else:
             self.encoding_type = encoding_type
             self.__org_encode = self.encode
@@ -77,7 +60,7 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
         return bytes([255]).join([self.sbox[i] for i in string])
 
     def decode(self, bytestext):  # Decode the byte data
-        return "".join([self.resbox[bytestext[i:i+3]] for i in range(0, len(bytestext), 3)])
+        return "".join([self.resbox[bytestext[i:i+self.perlength]] for i in range(0, len(bytestext), self.perlength)])
 
     def __sep_decode(self, bytestext):  # Decode the byte data (with seperator)
         return "".join([self.resbox[i] for i in bytestext.split(bytes([255]))])
@@ -160,7 +143,7 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
         for i1, i2 in self.sbox.items():
             bl = ",".join([str(i2[i]) for i in range(3)])  # listed bytes
             sbox[i1] = bl
-        return json.dumps({"sbox": sbox, "encoding_type": self.encoding_type, "special_exchange": self.special_exchange, "version": 9})
+        return json.dumps({"sbox": sbox, "encoding_type": self.encoding_type, "special_exchange": self.special_exchange, "perlength": self.perlength, "version": 9})
 
     def load(self, data):
         data = json.loads(data)
@@ -179,6 +162,7 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
                 self.encode = self.__sep_encode
                 self.decode = self.__sep_decode
             self.special_exchange = data["special_exchange"]
+            self.perlength = data["perlength"]
             if data["special_exchange"]:
                 self.cached_hash = self.__special_exchanged_cached_hash
             else:
@@ -196,6 +180,7 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
                 self.sbox[i1] = i2
                 self.resbox[i2] = i1
             self.encoding_type = data["encoding_type"]
+            self.perlength = data["perlength"]
             if data["encoding_type"] == "packet":
                 self.encode = self.__org_encode
                 self.decode = self.__org_decode
