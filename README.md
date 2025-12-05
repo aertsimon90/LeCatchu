@@ -63,6 +63,11 @@ This architectural duality is what elevates v9 far beyond any previous version.
   * **Raw ECB & Custom CBC Chaining Primitives** – `encrypt_raw`, `encrypt_chain` – full control for researchers.
   * **Built-in Shannon entropy scorer** (`entropy_score`).
 
+**Optimization Update Details:**
+
+The S-box definition process of the LeCatchu encryption engine has been optimized. A new parameter called **perlength** has been added, which controls the length (in bytes) of each encoded segment. Thanks to this, corresponding blocks are no longer limited to 3 bytes — they can now be of any desired length.  
+Additionally, the **seperatorprov** parameter provides data size savings in separator encoding mode.
+
 -----
 
 ## Installation
