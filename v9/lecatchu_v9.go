@@ -80,9 +80,9 @@ type LeCatchuEngine struct {
 	HasherFunc func(string) string 
 
 	// Custom Hash specific fields
-	Mul       int
-	MulKey    string
-	UseIntHash bool
+	Mul         int
+	MulKey      string
+	UseIntHash  bool
 }
 
 // Constructor Equivalent
@@ -659,14 +659,14 @@ func (x *LeCatchuExtra) ProcessHashard(target []byte, xbase int, lengthinc bool,
 // ---------------------------------------------------------
 
 type ParallelStreamCipher struct {
-	Engine    *LeCatchuEngine
-	EnKey     func() *big.Int
-	DeKey     func() *big.Int
-	IvEnKey   func() *big.Int
-	IvDeKey   func() *big.Int
-	UseIV     bool
-	IVLength  int
-	IVXBase   int
+	Engine     *LeCatchuEngine
+	EnKey      func() *big.Int
+	DeKey      func() *big.Int
+	IvEnKey    func() *big.Int
+	IvDeKey    func() *big.Int
+	UseIV      bool
+	IVLength   int
+	IVXBase    int
 	IVInterval int
 }
 
@@ -758,7 +758,7 @@ func (p *ParallelStreamCipher) RecvSocket(conn net.Conn, bufferSize int) ([]byte
 // In Go, we inject this logic into the Engine via the HasherFunc
 type LeCustomHash struct {
 	Engine *LeCatchuEngine
-	Mul    int
+	Mul     int
 	PerPart int
 	MulKey string
 	IntHashSum bool
@@ -849,23 +849,23 @@ func (c *LeCustomHash) CachedHash(combk string) string {
 // ---------------------------------------------------------
 
 type LeRandom struct {
-	Engine         *LeCatchuEngine
-	KeyGen         func() *big.Int
-	RandomK        interface{}
-	SeedUsed       bool
-	XBase          int
-	Interval       int
-	ExtraRandomize bool
-	RandomB        int
+	Engine          *LeCatchuEngine
+	KeyGen          func() *big.Int
+	RandomK         interface{}
+	SeedUsed        bool
+	XBase           int
+	Interval        int
+	ExtraRandomize  bool
+	RandomB         int
 }
 
 func NewLeRandom(e *LeCatchuEngine, xbase, interval int, extra bool) *LeRandom {
 	r := &LeRandom{
-		Engine:         e,
-		XBase:          xbase,
-		Interval:       interval,
-		ExtraRandomize: extra,
-		RandomB:        16,
+		Engine:          e,
+		XBase:           xbase,
+		Interval:        interval,
+		ExtraRandomize:  extra,
+		RandomB:         16,
 	}
 	r.Seed(nil)
 	return r
