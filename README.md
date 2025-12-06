@@ -236,8 +236,8 @@ Now you know why LehnCATH4 is untouchable.
 Welcome to the other side.
 
 Test Result Graphics (old v7.5 tests):  
-![Test1](chart.png)  
-![Test2](chart2.png)  
-![Test3](chart3.png)  
-![Test4](chart4.png)  
-![Test5](chart5.png)
+![Test1](charts/chart1.png)  
+![Test2](charts/chart2.png)  
+![Test3](charts/chart3.png)  
+![Test4](charts/chart4.png)  
+![Test5](charts/chart5.png)
