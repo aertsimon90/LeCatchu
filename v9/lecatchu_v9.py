@@ -475,7 +475,7 @@ class ParallelStreamCipher:  # Parallel and two-side encryption
         elif retry:
             return self.accept_socket(s, errors, retry)
 
-class LeCustomHash:
+class LeCustomHash: # Full Independence - LeCatchu Special Encryption Algorithm
 	def __init__(self, engine, perpart=128, mul=1, mulkey="Lehncrypt", inthashsum=True): # Experimental custom hash
 		if inthashsum:
 			self.__inthash = self.__sum_inthash # more fast but less security
