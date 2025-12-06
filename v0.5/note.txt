@@ -1,2 +1,0 @@
-LeCatchu v0.5 - This is a preliminary, test-purpose copy, reminiscent of the earliest, unreleased iterations of the LeCatchu cryptographic engine.
-​Before the official LeCatchu was even conceptualized or publicly available, various experimental code fragments were retrieved to create this v0.5 version. It is specifically reconstructed from older, foundational code trials to evoke the spirit and mechanism of those early development engines, and has been released exclusively for enthusiasts and those curious about its origins.
