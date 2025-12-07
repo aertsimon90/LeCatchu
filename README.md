@@ -75,7 +75,9 @@ Additionally, the **seperatorprov** parameter provides data size savings in sepa
 There is no installation process.
 
 Copy the **\~215 lines** (Core Engine) or **\~615 lines** (Full Edition) into your project or import as a module.
-Requires only Python 3.6+ and the standard library.
+Requires only Python 3.8+ and the standard library.
+
+If you want to use it as a module, the PyPI library is up to date in v9.0.0. [PyPI](https://pypi.org/project/LeCatchu/)
 
 ## Usage Overview
 
