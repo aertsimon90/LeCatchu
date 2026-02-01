@@ -1,0 +1,389 @@
+===== ENCODE / DECODE TESTS =====
+
+LeCatchu encode/decode tests with timing + normalized entropy (0.0-1.0)
+
+Each case is run 5 times for average timing.
+
+
+=== Packet mode – deterministic (no shuffle) ===
+perlength     = 3
+encoding_type = packet
+shufflesbox   = False
+--------------------------------------------------------------------------------------------------------------
+Test  1 | len:    24 | bytes:     72 | ratio: 3.00 | entropy: 0.2754 | avg time:    0.015 ms | PASS
+Test  2 | len:    29 | bytes:     87 | ratio: 3.00 | entropy: 0.3561 | avg time:    0.011 ms | PASS
+Test  3 | len:    53 | bytes:    159 | ratio: 3.00 | entropy: 0.3549 | avg time:    0.015 ms | PASS
+Test  4 | len:    77 | bytes:    231 | ratio: 3.00 | entropy: 0.4931 | avg time:    0.022 ms | PASS
+Test  5 | len:    40 | bytes:    120 | ratio: 3.00 | entropy: 0.4323 | avg time:    0.012 ms | PASS
+Test  6 | len:  1320 | bytes:   3960 | ratio: 3.00 | entropy: 0.2523 | avg time:    0.301 ms | PASS
+Test  7 | len:  3000 | bytes:   9000 | ratio: 3.00 | entropy: 0.1565 | avg time:    0.585 ms | PASS
+Test  8 | len:     0 | bytes:      0 | ratio: 0.00 | entropy: 0.0000 | avg time:    0.001 ms | PASS
+Test  9 | len:     1 | bytes:      3 | ratio: 3.00 | entropy: 0.1148 | avg time:    0.002 ms | PASS
+Test 10 | len:    37 | bytes:    111 | ratio: 3.00 | entropy: 0.3454 | avg time:    0.015 ms | PASS
+
+Group summary:
+  Total characters processed (all repeats): 22,905
+  Total time (all repeats): 0.005 seconds
+  Avg time per character: 0.000214 ms/char
+  Average normalized entropy: 0.2781  (1.0 = perfect randomness)
+  Reference: 1024 random bytes (encoded) → entropy 0.4378
+  Reference: 1024 '.' chars (encoded)   → entropy 0.1148
+  Failed tests: 0/10
+==============================================================================================================
+
+=== Packet mode – shuffled substitution ===
+perlength     = 3
+encoding_type = packet
+shufflesbox   = True
+--------------------------------------------------------------------------------------------------------------
+Test  1 | len:    24 | bytes:     72 | ratio: 3.00 | entropy: 0.6640 | avg time:    0.012 ms | PASS
+Test  2 | len:    29 | bytes:     87 | ratio: 3.00 | entropy: 0.6827 | avg time:    0.012 ms | PASS
+Test  3 | len:    53 | bytes:    159 | ratio: 3.00 | entropy: 0.7992 | avg time:    0.032 ms | PASS
+Test  4 | len:    77 | bytes:    231 | ratio: 3.00 | entropy: 0.6532 | avg time:    0.026 ms | PASS
+Test  5 | len:    40 | bytes:    120 | ratio: 3.00 | entropy: 0.7734 | avg time:    0.016 ms | PASS
+Test  6 | len:  1320 | bytes:   3960 | ratio: 3.00 | entropy: 0.5802 | avg time:    0.277 ms | PASS
+Test  7 | len:  3000 | bytes:   9000 | ratio: 3.00 | entropy: 0.3231 | avg time:    0.580 ms | PASS
+Test  8 | len:     0 | bytes:      0 | ratio: 0.00 | entropy: 0.0000 | avg time:    0.001 ms | PASS
+Test  9 | len:     1 | bytes:      3 | ratio: 3.00 | entropy: 0.1981 | avg time:    0.002 ms | PASS
+Test 10 | len:    37 | bytes:    111 | ratio: 3.00 | entropy: 0.6701 | avg time:    0.017 ms | PASS
+
+Group summary:
+  Total characters processed (all repeats): 22,905
+  Total time (all repeats): 0.005 seconds
+  Avg time per character: 0.000212 ms/char
+  Average normalized entropy: 0.5344  (1.0 = perfect randomness)
+  Reference: 1024 random bytes (encoded) → entropy 0.9589
+  Reference: 1024 '.' chars (encoded)   → entropy 0.1981
+  Failed tests: 0/10
+==============================================================================================================
+
+=== Separator mode ===
+perlength     = 3
+encoding_type = seperator
+shufflesbox   = False
+--------------------------------------------------------------------------------------------------------------
+Test  1 | len:    24 | bytes:     47 | ratio: 1.96 | entropy: 0.3710 | avg time:    0.014 ms | PASS
+Test  2 | len:    29 | bytes:     67 | ratio: 2.31 | entropy: 0.4239 | avg time:    0.013 ms | PASS
+Test  3 | len:    53 | bytes:    113 | ratio: 2.13 | entropy: 0.4503 | avg time:    0.019 ms | PASS
+Test  4 | len:    77 | bytes:    253 | ratio: 3.29 | entropy: 0.4802 | avg time:    0.030 ms | PASS
+Test  5 | len:    40 | bytes:    103 | ratio: 2.58 | entropy: 0.4721 | avg time:    0.011 ms | PASS
+Test  6 | len:  1320 | bytes:   2639 | ratio: 2.00 | entropy: 0.3313 | avg time:    0.155 ms | PASS
+Test  7 | len:  3000 | bytes:   5999 | ratio: 2.00 | entropy: 0.1875 | avg time:    0.377 ms | PASS
+Test  8 | len:     0 | bytes:      0 | ratio: 0.00 | entropy: 0.0000 | avg time:    0.001 ms | PASS
+Test  9 | len:     1 | bytes:      1 | ratio: 1.00 | entropy: 0.0000 | avg time:    0.002 ms | PASS
+Test 10 | len:    37 | bytes:     85 | ratio: 2.30 | entropy: 0.4153 | avg time:    0.009 ms | PASS
+
+Group summary:
+  Total characters processed (all repeats): 22,905
+  Total time (all repeats): 0.003 seconds
+  Avg time per character: 0.000138 ms/char
+  Average normalized entropy: 0.3132  (1.0 = perfect randomness)
+  Reference: 1024 random bytes (encoded) → entropy 0.6141
+  Reference: 1024 '.' chars (encoded)   → entropy 0.1250
+  Failed tests: 0/10
+==============================================================================================================
+
+===== ENCRYPT / DECRYPT TESTS =====
+
+LeCatchu encrypt / decrypt tests – different xbase & interval combinations
+
+Only basic encrypt() and decrypt() methods are used.
+
+
+=== xbase=1, interval=1 ===
+key (bytes): b'secret_key_2025'
+xbase = 1, interval = 1
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6324 | avg time:   0.095 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6094 | avg time:   0.060 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8269 | avg time:   0.328 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5212 | avg time:   0.117 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.4844 | avg time:   0.031 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9484 | avg time:   2.859 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9889 | avg time:   9.526 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.065 s
+  Avg time per byte: 0.004666 ms/byte
+  Average normalized entropy: 0.7159  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9773
+  Reference: 1024 '.' bytes     → entropy 0.9771
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=1, interval=2 ===
+key (bytes): b'secret_key_2025'
+xbase = 1, interval = 2
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.5950 | avg time:   0.064 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6094 | avg time:   0.041 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.7251 | avg time:   0.202 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.4796 | avg time:   0.026 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.5000 | avg time:   0.026 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9478 | avg time:   1.624 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9877 | avg time:   5.597 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.038 s
+  Avg time per byte: 0.002717 ms/byte
+  Average normalized entropy: 0.6921  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9761
+  Reference: 1024 '.' bytes     → entropy 0.9549
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=3, interval=1 ===
+key (bytes): b'secret_key_2025'
+xbase = 3, interval = 1
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6324 | avg time:   0.165 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6016 | avg time:   0.128 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8306 | avg time:   1.613 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5212 | avg time:   0.083 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.5000 | avg time:   0.084 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9499 | avg time:   6.192 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9901 | avg time:  22.507 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.154 s
+  Avg time per byte: 0.011030 ms/byte
+  Average normalized entropy: 0.7180  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9736
+  Reference: 1024 '.' bytes     → entropy 0.9731
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=3, interval=2 ===
+key (bytes): b'secret_key_2025'
+xbase = 3, interval = 2
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6185 | avg time:   0.107 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.5938 | avg time:   0.075 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.7305 | avg time:   0.799 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5074 | avg time:   0.055 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.5000 | avg time:   0.082 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9440 | avg time:   3.523 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9871 | avg time:  13.160 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.089 s
+  Avg time per byte: 0.006381 ms/byte
+  Average normalized entropy: 0.6973  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9769
+  Reference: 1024 '.' bytes     → entropy 0.9420
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+===== ENCRYPTS / DECRYPTS TESTS =====
+
+LeCatchu encrypts() / decrypts() tests – different xbase & interval combinations
+
+Only multi-key encrypt() and decrypt() methods are used.
+
+
+=== xbase=1, interval=1 ===
+keys: ['key1', 'key2', 'key3']
+xbase = 1, interval = 1
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.5993 | avg time:   0.662 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6250 | avg time:   0.308 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8193 | avg time:   2.429 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5074 | avg time:   0.145 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.4688 | avg time:   0.120 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9467 | avg time:   9.335 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9880 | avg time:  34.811 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.239 s
+  Avg time per byte: 0.017137 ms/byte
+  Average normalized entropy: 0.7078  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9780
+  Reference: 1024 '.' bytes     → entropy 0.9774
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=1, interval=2 ===
+keys: ['key1', 'key2', 'key3']
+xbase = 1, interval = 2
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6254 | avg time:   0.223 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6250 | avg time:   0.169 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8279 | avg time:   1.722 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5212 | avg time:   0.118 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.5000 | avg time:   0.107 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9527 | avg time:   7.285 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9890 | avg time:  29.270 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.194 s
+  Avg time per byte: 0.013941 ms/byte
+  Average normalized entropy: 0.7202  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9749
+  Reference: 1024 '.' bytes     → entropy 0.9755
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=3, interval=1 ===
+keys: ['key1', 'key2', 'key3']
+xbase = 3, interval = 1
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6462 | avg time:   2.484 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6172 | avg time:   1.993 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8301 | avg time:   6.214 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5074 | avg time:   0.965 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.4844 | avg time:   0.838 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9497 | avg time:  25.516 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9874 | avg time:  89.491 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.638 s
+  Avg time per byte: 0.045699 ms/byte
+  Average normalized entropy: 0.7175  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9773
+  Reference: 1024 '.' bytes     → entropy 0.9765
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+=== xbase=3, interval=2 ===
+keys: ['key1', 'key2', 'key3']
+xbase = 3, interval = 2
+----------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:    36 | norm. entropy: 0.6393 | avg time:   1.154 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:    32 | norm. entropy: 0.6016 | avg time:   1.080 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   128 | norm. entropy: 0.8092 | avg time:   4.169 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:    18 | norm. entropy: 0.5074 | avg time:   0.714 ms | roundtrip: PASS
+Test  5 | plain len:    16 | cipher len:    16 | norm. entropy: 0.4844 | avg time:   0.258 ms | roundtrip: PASS
+Test  6 | plain len:   512 | cipher len:   512 | norm. entropy: 0.9472 | avg time:  15.891 ms | roundtrip: PASS
+Test  7 | plain len:  2048 | cipher len:  2048 | norm. entropy: 0.9893 | avg time:  64.302 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.438 s
+  Avg time per byte: 0.031386 ms/byte
+  Average normalized entropy: 0.7112  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9767
+  Reference: 1024 '.' bytes     → entropy 0.9756
+  Failed roundtrips: 0/7
+  Avg changed bytes after flipping 1 byte: 2.7%
+====================================================================================================
+
+===== ENCRYPT WITH IV / DECRYPT WITH IV =====
+
+LeCatchu encrypt_with_iv / decrypt_with_iv tests – different xbase & interval combinations
+
+IV length = 256, ivxbase=1, ivinterval=1 (default)
+
+
+=== xbase=1, interval=1 ===
+key: secret_key_2025
+xbase = 1, interval = 1
+IV length = 256, ivxbase = 1, ivinterval = 1
+--------------------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:   292 | entropy: 0.9102 | avg time:   1.625 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:   288 | entropy: 0.9003 | avg time:   1.532 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   384 | entropy: 0.9284 | avg time:   2.968 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:   274 | entropy: 0.9046 | avg time:   1.569 ms | roundtrip: PASS
+Test  5 | plain len:     0 | cipher len:   256 | entropy: 0.8917 | avg time:   1.332 ms | roundtrip: PASS
+Test  6 | plain len:    16 | cipher len:   272 | entropy: 0.8972 | avg time:   1.297 ms | roundtrip: PASS
+Test  7 | plain len:   512 | cipher len:   768 | entropy: 0.9712 | avg time:   7.385 ms | roundtrip: PASS
+Test  8 | plain len:  2048 | cipher len:  2304 | entropy: 0.9909 | avg time:  23.953 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.208 s
+  Avg time per byte: 0.014931 ms/byte
+  Average normalized entropy: 0.9243  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9807
+  Reference: 1024 '.' bytes     → entropy 0.9806
+  Failed roundtrips: 0/8
+  Avg changed bytes after flipping 1 byte: 99.7%
+==============================================================================================================
+
+=== xbase=1, interval=2 ===
+key: secret_key_2025
+xbase = 1, interval = 2
+IV length = 256, ivxbase = 1, ivinterval = 1
+--------------------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:   292 | entropy: 0.9090 | avg time:   1.201 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:   288 | entropy: 0.9067 | avg time:   1.181 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   384 | entropy: 0.9301 | avg time:   2.095 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:   274 | entropy: 0.8979 | avg time:   0.933 ms | roundtrip: PASS
+Test  5 | plain len:     0 | cipher len:   256 | entropy: 0.9001 | avg time:   0.386 ms | roundtrip: PASS
+Test  6 | plain len:    16 | cipher len:   272 | entropy: 0.9012 | avg time:   0.900 ms | roundtrip: PASS
+Test  7 | plain len:   512 | cipher len:   768 | entropy: 0.9694 | avg time:   5.628 ms | roundtrip: PASS
+Test  8 | plain len:  2048 | cipher len:  2304 | entropy: 0.9896 | avg time:  20.144 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.162 s
+  Avg time per byte: 0.011637 ms/byte
+  Average normalized entropy: 0.9255  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9815
+  Reference: 1024 '.' bytes     → entropy 0.9791
+  Failed roundtrips: 0/8
+  Avg changed bytes after flipping 1 byte: 99.7%
+==============================================================================================================
+
+=== xbase=3, interval=1 ===
+key: secret_key_2025
+xbase = 3, interval = 1
+IV length = 256, ivxbase = 1, ivinterval = 1
+--------------------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:   292 | entropy: 0.9099 | avg time:   3.791 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:   288 | entropy: 0.9040 | avg time:   3.521 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   384 | entropy: 0.9253 | avg time:   5.628 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:   274 | entropy: 0.9043 | avg time:   3.383 ms | roundtrip: PASS
+Test  5 | plain len:     0 | cipher len:   256 | entropy: 0.8969 | avg time:   2.869 ms | roundtrip: PASS
+Test  6 | plain len:    16 | cipher len:   272 | entropy: 0.9032 | avg time:   3.391 ms | roundtrip: PASS
+Test  7 | plain len:   512 | cipher len:   768 | entropy: 0.9655 | avg time:  13.378 ms | roundtrip: PASS
+Test  8 | plain len:  2048 | cipher len:  2304 | entropy: 0.9887 | avg time:  43.249 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.396 s
+  Avg time per byte: 0.028391 ms/byte
+  Average normalized entropy: 0.9247  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9805
+  Reference: 1024 '.' bytes     → entropy 0.9821
+  Failed roundtrips: 0/8
+  Avg changed bytes after flipping 1 byte: 99.8%
+==============================================================================================================
+
+=== xbase=3, interval=2 ===
+key: secret_key_2025
+xbase = 3, interval = 2
+IV length = 256, ivxbase = 1, ivinterval = 1
+--------------------------------------------------------------------------------------------------------------
+Test  1 | plain len:    36 | cipher len:   292 | entropy: 0.9174 | avg time:   2.226 ms | roundtrip: PASS
+Test  2 | plain len:    32 | cipher len:   288 | entropy: 0.9035 | avg time:   2.230 ms | roundtrip: PASS
+Test  3 | plain len:   128 | cipher len:   384 | entropy: 0.9361 | avg time:   3.298 ms | roundtrip: PASS
+Test  4 | plain len:    18 | cipher len:   274 | entropy: 0.9039 | avg time:   1.873 ms | roundtrip: PASS
+Test  5 | plain len:     0 | cipher len:   256 | entropy: 0.8893 | avg time:   1.587 ms | roundtrip: PASS
+Test  6 | plain len:    16 | cipher len:   272 | entropy: 0.8896 | avg time:   2.059 ms | roundtrip: PASS
+Test  7 | plain len:   512 | cipher len:   768 | entropy: 0.9661 | avg time:   8.347 ms | roundtrip: PASS
+Test  8 | plain len:  2048 | cipher len:  2304 | entropy: 0.9912 | avg time:  27.779 ms | roundtrip: PASS
+
+Summary:
+  Total bytes processed (all repeats): 13,950
+  Total time (all repeats): 0.247 s
+  Avg time per byte: 0.017706 ms/byte
+  Average normalized entropy: 0.9246  (1.0 = perfect randomness)
+  Reference: 1024 random bytes  → entropy 0.9820
+  Reference: 1024 '.' bytes     → entropy 0.9827
+  Failed roundtrips: 0/8
+  Avg changed bytes after flipping 1 byte: 99.7%
+==============================================================================================================
