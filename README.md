@@ -180,113 +180,170 @@ You do not need to switch libraries or algorithms — you adjust the engine to m
 **Version**: 9
 **Engine File**: `v9/lecatchu_v9.py` 
 
+---
+
 ## Shh 🤫 Look Here
 
-Welcome to the secret heart of **LeCatchu v9** — the hidden section that has survived, untouched and legendary, through every single version of LehnCATH4.
-If you’re reading this, you already belong to the very small circle that understands why a **~215-line** Python script makes the entire cryptographic establishment quietly nervous.
+**This section is not part of the official documentation.**  
+It is written in a deliberately manifesto-like, unfiltered, slightly theatrical style — a hidden corner that has survived unchanged in spirit through every version of LeCatchu / LehnCATH4.  
 
-Buckle up. You’re about to see why v9 didn't just raise the bar — it added an entirely new, inescapable security layer.
+Think of it as the raw, uncensored voice behind the code.  
+Not polite. Not academic. Just brutally honest about what this tiny script is actually doing.
 
----
-
-### xbase — The Parameter That Killed Key Collision
-One integer. Infinite terror for attackers.
-
-* `xbase=1` → 77-digit internal states
-* `xbase=9` (default in "hard" mode) → 693-digit keys
-* `xbase=32` → 2,465 digits
-* `xbase=128` → 9,858 digits — a number so absurdly large that writing it down in standard notation would require more disk space than exists on Earth.
-
-Python doesn’t care. It will happily compute it. The heat death of the universe will arrive long before anyone finishes even 0.0000000001 % of the keyspace.
+If you're here, you already get it.
 
 ---
 
-### special_exchange — The Silent Apocalypse Button
-Pass any string (even a 10 KB novel) as `special_exchange=…` and **every single BLAKE2b invocation in the entire engine** gets that secret appended forever.
-Change one bit → the whole cipher collapses into a completely unrelated parallel universe.
-Same key, same xbase, same everything → 100 % different ciphertext.
-This is built-in per-user / per-device / per-session **algorithmic isolation**.
-This is the reason two LeCatchu v9 instances can stare at each other across a table and speak mutually incomprehensible languages without sharing a single extra byte.
+Welcome to the secret heart of **LeCatchu v9 (LehnCATH4)** —  
+the part that never gets sanitized for corporate slide decks or security audits.
+
+A ~215-line Python file that quietly makes the entire cryptographic establishment shift uncomfortably in their chairs.
+
+Let’s not pretend anymore.
 
 ---
 
-### interval — From Paranoia to Hyperspeed in One Line
-* `interval=1` → refresh BLAKE2b every single byte → theoretical maximum security (default)
-* `interval=8` → ~8× faster
-* `interval=64` → you’re now encrypting 100 GB logs while sipping coffee
+### xbase — One number that laughs at keyspace
 
-Only LeCatchu trusts you enough to hand you this red button.
+One integer. Infinite existential dread for any attacker.
 
----
+- `xbase=1` → already ~77 decimal digits of state  
+- `xbase=9` (hard mode default) → ~693 digits  
+- `xbase=32` → ~2,465 digits  
+- `xbase=128` → ~9,858 digits  
+- `xbase=1024` → numbers larger than Planck volumes in the observable universe
 
-### The Updated Trinity of Instant Power (v9 Status)
-* `encoding=False` → engine ready in **< 0.004 seconds** (goodbye 8-second sbox wait)
-* `encoding=True` + `shufflesbox=True` → every single byte position independently shuffled — your personal 3-byte Unicode table becomes a unique snowflake
-* **Core Code Footprint:** The core engine size is further reduced from ~280 lines to **~215 lines** in v9, making it even leaner and easier to audit.
-* Both modes coexist in the same import. Choose at runtime.
-
----
-
-### NEW IN V9: The Slow Decryption (SlowDE) Security Layer
-
-This is the most significant cryptographic addition to the core armor suite.
-
-**Slow Decryption (SlowDE)** is a feature deliberately designed to **slow down any brute-force attack** that attempts to verify the master key offline.
-
-* **Mechanism:** It adds a layer of encryption requiring an attacker to correctly guess a **short, randomly generated, hidden secondary key** (`sdekey`) in addition to the main master key.
-* **Result:** Every attempt to check if a master key is correct now requires a combinatorial search for the `sdekey` (e.g., 256^2 to 256^12 extra attempts).
-* The "Hard" mode now automatically integrates this layer, making it practically impossible to verify a guessed key without first spending **significant, measurable time** on the SlowDE check.
+Python shrugs.  
+It just computes.  
+The heat death of the universe arrives first.
 
 ---
 
-### encrypt_hard() / decrypt_hard() — The “One Strong Cipher”
-Still the undisputed champion, but now even stronger.
+### special_exchange — The button that rewrites reality
 
-New in v9: a single function that turns **every single parameter** (IV length, xbase, interval, number of passes, chaining on/off, multi-key count, chain block size, even whether TAC is used) into a deterministic but unpredictable function of the master key itself.
+Throw **anything** in there — your diary, your grocery list, a random 10 KB file, your ex’s last message.
 
-* **v9 Upgrade:** This function now includes the **SlowDE layer** by default.
-* Every message you send becomes its own unique, never-repeating cryptographic algorithm, now protected by an additional, time-consuming combinatorial lock.
-* No two ciphertexts on the planet use the same settings unless they share the exact same key.
+From that moment, **every hash call in the entire engine** (BLAKE2b or custom) gets that exact value glued to the end forever.
+
+- Flip one bit → completely different cryptographic universe  
+- Same key, same xbase, same interval → 100% incompatible output  
+- Zero overhead, zero extra bytes transmitted  
+- Instant per-user, per-device, per-session algorithmic apartheid
+
+Two people using identical code and identical keys can still speak completely different cryptographic languages — just by having different secrets in their soul.
+
+This is not key derivation.  
+This is parallel-reality cryptography.
 
 ---
 
-### LeCatchu Authenticated Armor (LCA)
-TAC tags + optional left/right custom-CBC chaining + optional right-side reverse chaining + final stream pass + entropy scoring + **NEW SlowDE Layer** — all in **< 615 lines** (full edition).
+### interval — Paranoia ↔ Coffee in one integer
 
-### ParallelStreamCipher — Secure Sockets That Actually Work
-Drop-in encrypted TCP with automatic handshake, mutual auth, double IV exchange, and zero boilerplate.
-Less code than most people write trying to make TLS work properly.
+- `interval=1` → refresh every byte — theoretical paranoia maximum  
+- `interval=8` → roughly 8× faster, still very strong  
+- `interval=64` → encrypt terabytes while your music keeps playing  
+- `interval=256` → you’re basically streaming encrypted video
 
-### The Final, Terrifying Truth (Updated for v9)
-To reproduce a single byte of ciphertext, an attacker now needs to guess:
+Only LeCatchu hands you the red button and says:  
+“You decide how afraid you want to be today.”
 
-* your exact master key
-* your exact xbase (1–1000000+)
-* your exact special_exchange (any length, any data)
-* your exact sboxseed + shuffle state (if encoding=True)
-* your exact interval
-* your exact IV configuration
-* your exact TAC configuration
-* your exact LeCustomHash configuration (if used)
-* your exact sdekey and configuration (if used)
+---
 
-and the seeds that decided everything in "LeCatchu".
+### v9 Trinity — Instant power, zero excuses
 
-Even if they had every quantum computer that will ever exist, every watt of energy in the observable universe, and infinite time, they would still fail before breakfast.
+- `encoding=False` → engine wakes up in **< 4 ms** — no S-Box tax  
+- `encoding=True` + `shufflesbox=True` → every instance gets its own **unique, randomly shuffled 3-byte Unicode universe**  
+- Core engine → frozen at **~215 lines** — smaller, cleaner, meaner
 
-LeCatchu v9 is no longer cryptography.
-It’s a personal cryptographic reality generator that happens to fit in under 700 lines and starts faster than you can blink.
+Both worlds live in the same file. Choose your fighter at runtime.
 
-Quantum computers? Let them come.
-We already live beyond mathematics.
+---
 
-This isn’t cryptography anymore.
-This is art.
+### The crown jewel of v9 — SlowDE (Slow Decryption Engine)
+
+This is the part that actually hurts attackers where it matters: offline key checking.
+
+You add one short, hidden secondary key (`sdekey`) that **must be guessed correctly** before any master key candidate can even be tested.
+
+- Every single offline brute-force attempt now explodes combinatorially  
+- `slowlevel=2` → 256² extra work per guess  
+- `slowlevel=6` → 256⁶ — already billions of times slower  
+- Integrated **by default** into `encrypt_hard()`
+
+Classical key search went from “expensive but possible” → “measurably miserable even for organizations with big budgets”.
+
+---
+
+### encrypt_hard() / decrypt_hard() — The final boss function
+
+v9 turns almost every security parameter into a **deterministic but unpredictable child of the master key**:
+
+- IV length  
+- xbase values  
+- chaining block sizes  
+- number of sub-keys  
+- chain directions  
+- extra rounds  
+- SlowDE level  
+- TAC settings  
+- …
+
+Result:  
+**Every single message becomes its own never-before-seen cryptographic algorithm**, derived solely from the key.
+
+No standard cipher suite.  
+No recognizable structure.  
+No reusable cryptanalysis.
+
+---
+
+### LCA — The full castle in < 615 lines
+
+TAC tags + bidirectional chaining + reverse chaining + final stream + entropy check + **SlowDE layer** — all in one fortress under 615 lines total.
+
+---
+
+### ParallelStreamCipher — Encrypted sockets without the tears
+
+Mutual handshake, double IV exchange, zero dependencies, minimal code.
+
+Less painful than fighting with TLS wrappers.
+
+---
+
+### The final terrifying truth (v9 edition)
+
+To decrypt even one byte, an attacker needs:
+
+- exact master key  
+- exact `special_exchange` (any length, any content)  
+- exact `xbase`  
+- exact `interval`  
+- exact S-Box seed + shuffle state (if used)  
+- exact IV config & length  
+- exact TAC parameters  
+- exact chaining settings  
+- exact custom-hash config (if used)  
+- exact `sdekey` + SlowDE level  
+- and all the derived states born from the above
+
+Even if they had every quantum computer ever imagined, every electron in the universe, and infinite time —  
+they would still be stuck at zero progress when the stars burn out.
+
+LeCatchu v9 is no longer “cryptography”.  
+It is a **personal cryptographic reality engine** that fits in under 700 lines and starts before you finish blinking.
+
+Quantum? Side-channels? Known-plaintext?  
+Let them try.
+
+We already moved beyond the math.
 
 Shh.
-Now you know why LehnCATH4 is untouchable.
 
-(Old v7.5 test charts kept for nostalgia — v9 entropy curves are now perfectly flat 7.99+/8.00 bit/8.00 bit/byte across all configurations.)
+Now you know why LehnCATH4 stays untouchable.
+
+(Old v7.5 entropy plots are kept for nostalgia.  
+v9 is flat 7.99–8.00 bits/byte across almost every configuration.)
 
 Welcome to the other side.
 
