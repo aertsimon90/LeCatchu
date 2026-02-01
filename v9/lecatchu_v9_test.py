@@ -673,7 +673,7 @@ def test_encode_decode_with_timing_and_entropy(engine, test_name, test_cases, re
                 failed += 1
 
             print(f"Test {i:2d} | len: {len(original):5d} | bytes: {len(last_encoded):6d} | "
-                  f"ratio: {byte_ratio:4.2f} | norm. entropy: {norm_entropy:6.4f} | "
+                  f"ratio: {byte_ratio:4.2f} | entropy: {norm_entropy:6.4f} | "
                   f"avg time: {avg_time_ms:8.3f} ms | {status}")
 
             total_time_ms += sum(times)
