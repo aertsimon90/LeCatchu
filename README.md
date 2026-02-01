@@ -1,128 +1,181 @@
-# LeCatchu v9 (LehnCATH4) 
-![LeCatchu Logo](LeCatchu.png)
+# LeCatchu v9 (LehnCATH4)
 
-LeCatchu v9, officially branded as **LehnCATH4**, stands as the crowning achievement of one of the most daring, ambitious, and successful independent cryptographic projects in the history of open-source development. What began years ago as a seemingly abandoned experiment riddled with fatal flaws has been completely reborn, not once, but multiple times, through relentless redesign, theoretical breakthroughs, and an uncompromising pursuit of perfection. Version 9 is not merely an update; it is the final, mature, and now fully armed form of a vision that refused to die. It is the moment when the 150-line miracle from v7.5 evolved into a flawless **\~215-line core** (and **\~615-line full edition** with advanced modules) that satisfies every possible real-world demand: ultimate security, instant usability, network readiness, infinite customizability, and performance that can be dialed from “quantum-proof fortress” to “blazing-fast real-time cipher” in a single parameter.
+<p align="center">
+  <img src="LeCatchu.png" alt="LeCatchu Logo" width="320"/>
+  <br/>
+  <em>Powerful • Lightweight • Extremely Configurable Cryptographic Engine</em>
+</p>
 
-Boasting a **Shannon entropy of 0.999999**—a value so extraordinarily close to the theoretical maximum of 1.0 that no statistical test on Earth can distinguish its output from pure randomness—LeCatchu v9 delivers cryptographic unpredictability at a level previously thought impossible in a sub-300-line, dependency-free Python implementation. Even quantum-assisted Grover or Shor attacks are rendered irrelevant when the engine is used with strong keys and recommended settings.
+<br/>
 
-Where v7.5 still carried the famous 5–10 second initialization delay as its only real drawback, v9 obliterates that limitation entirely when desired: by simply disabling the substitution layer (`encoding=False`), the engine now starts in **under 0.01 seconds**—often instantly—while retaining full stream-cipher, IV, TAC, and networking capabilities. When maximum obfuscation is required, the full sbox can still be enabled, preserving the legendary 8-second “fortress mode” that made LeCatchu famous.
+**LeCatchu** is **not** a single cryptographic algorithm.  
+It is a **highly modular, parameter-driven cryptographic engine** that allows complete control over the security ↔ performance trade-off.
 
-LeCatchu v9 is the lifelong creation and passion of **Simon Scap**, a solitary developer who proved that world-class, future-proof cryptography does not require corporations, grants, or thousands of lines of C—it can be born from pure intellect, determination, and elegance.
+By adjusting parameters, the exact same engine can provide:
 
-## About the Engine
+- extremely fast but very basic protection (suitable only for obfuscation)  
+↔  
+- multi-layered, authenticated encryption that offers strong cryptographic properties while remaining surprisingly lightweight
 
-LehnCATH4 v9 is a dual-nature cryptographic engine capable of operating in two fundamentally different paradigms:
+LeCatchu v9 (internal codename **LehnCATH4**) is the most mature, balanced, and feature-complete version released to date.
 
-1.  **Full Substitution** (`encoding=True`)
-    A gigantic, uniquely seeded, cryptographically shuffled substitution box (sbox) maps all 1,114,112 Unicode code points to unique 3-byte sequences.
+## Core Philosophy
 
-2.  **Pure Stream-Cipher Mode** (`encoding=False`)
-    The entire sbox layer is bypassed. The engine becomes an ultra-fast, instant-start, infinitely tunable stream cipher with TAC, IV, multi-key, and full networking support—perfect for servers, real-time protocols, and microservices.
+> You do **not** switch algorithms to change security level.  
+> You **change parameters** to shape the desired security–performance profile.
 
-This architectural duality is what elevates v9 far beyond any previous version.
+This single engine can legitimately serve use-cases ranging from minimal obfuscation of internal data to strong protection of sensitive records.
 
-## Key Features – Complete and Uncompromising
+## Main Features
 
-  * **Ultra-Lightweight Design** – **Core engine reduced to \~215 lines**, zero external dependencies, embeddable anywhere.
-  * **Near-Perfect Randomness** – Shannon entropy 0.999999 in all modes and configurations.
-  * **Complete Unicode Support** – Every single Unicode code point (U+0000 to U+10FFFF) fully supported when sbox is active.
-  * **Two Professional Encoding Modes** (sbox mode only):
-      * `packet` – absolute minimum size, zero wasted bytes
-      * `separator` – inserts 0xFF between triplets for lightning-fast parsing and automatic corruption detection
-  * **BLAKE2b Infinite Stream Cipher** – one of the fastest and most trusted cryptographic hashes as the core PRNG.
-  * **`xbase` Infinite Keyspace Mechanism** – key length ≈ 77 × xbase digits. xbase=32 already exceeds the number of atoms in the observable universe.
-  * **Optional IV/Nonce System** – full control via independent length, `ivxbase`, and `ivinterval`.
-  * **Text Authentication Code (TAC)** – embedded integrity tags that instantly detect wrong keys or tampering.
-  * **Complete JSON Serialization** – save and reload the entire engine state, including sbox, special\_exchange, and all parameters.
-  * **Aggressive Performance Caching** – `@lru_cache` on every heavy operation.
+- Single-file, **zero external dependencies** (only Python standard library)
+- Extremely **lightweight** and embeddable design
+- Stream-cipher-style core encryption engine
+- Customizable **S-Box based encoding** (packet or separator modes)  
+  → **Important note**: The encoding layer is **not part of the encryption process**.  
+     It is used solely for **string → bytes** and **bytes → string** conversion.  
+     It maps characters to fixed byte sequences in a deterministic, reversible way, but it does **not** provide any cryptographic protection on its own.
+- Fully configurable-length **Initialization Vector (IV) / nonce** support
+- Lightweight **TAC (Tag-Authenticated Content)** authentication wrapper
+- Custom **chaining mode** — CBC-like but fully parameterizable
+- **Multi-key** encryption — multiple independent sub-keys in a single pass
+- **Slow Decryption Engine (SDE)** — intentional asymmetric computation cost
+- **LeCatchu Armor (LCA)** — multi-stage authenticated encryption construction
+- **encrypt_hard / decrypt_hard** — maximum-security preset with many randomized-but-deterministic layers
+- Built-in **deterministic random number generator (DRNG)**
+- **Custom internal hash functions** — two variants (fast vs. cryptographically stronger)  
+  → When using the custom hash system (`LeCustomHash`), LeCatchu **eliminates dependency on blake2b** entirely. This effectively transforms the engine into a **fully independent cryptographic primitive** with its own internal hash construction.
+- Socket-friendly secure channel helper class
+- Entropy estimation utility
 
------
+## Security ↔ Performance Spectrum
 
-## Revolutionary Breakthrough Features Introduced in v9 (and v8.2)
+| Level                | Approximate Speed   | Main Features Used                                                                 | Typical Use Case                                      |
+|----------------------|---------------------|------------------------------------------------------------------------------------|-------------------------------------------------------|
+| Very Low             | Highest             | S-Box encoding + simple single-key stream                                          | Obfuscation, savegames, temporary tokens              |
+| Low                  | Very high           | Basic stream + short IV + TAC tag                                                  | Internal application data protection, log masking     |
+| Medium               | High                | IV + chaining + moderate parameter values                                          | Medium-value network packets, file encryption         |
+| High                 | Fast–moderate       | LCA (Armor) + bidirectional chaining + TAC + reasonable parameter ranges           | Sensitive user/business data, database fields         |
+| Very High            | Moderate–fast       | encrypt_hard + wide parameter ranges + SDE + multi-layer                           | High-value assets, long-term archival                 |
+| Paranoid / Research  | Moderate–slow       | Maximum parameter ranges + high SDE + heavy chaining + many rounds                 | Academic experiments, CTF challenges, red-team usage  |
 
-### Core Engine & Design Changes (v9 Updates)
+## Detailed Feature Breakdown
 
-  * **Code Footprint Optimization:** The Core Engine file size has been minimized from \~230 LOC (v8.2) to **\~215 LOC** (v9), making it even lighter and easier to audit.
-  * **Hardened Integrity Checks:** The `check_tactag` logic now uses **direct byte comparison** for authentication instead of string conversion, eliminating potential encoding pitfalls and making integrity checks faster and more robust.
-  * **Walrus Operator Optimization:** Core hash generation loops (`process_hash` and `hash_stream`) now utilize Python's **Walrus Operator (`:=`)** for clean, highly efficient, one-line state management and hash stream production.
-  * **DRNG (Deterministic Random Number Generator):** Introduction of the **`LeRandom`** class to provide cryptographically secure and reproducible random numbers directly derived from the engine's hash stream, perfect for deterministic shuffles and parameter selection.
+### 1. Core Encryption Engine
+- Byte-oriented stream cipher construction
+- Default key-stream generation uses Blake2b (fast & reliable)
+- `xbase` — number of key-derivation iterations (higher = stronger diffusion)
+- `interval` — how frequently the key state is updated (1 = every byte)
+- Multi-key support (`encrypts` / `decrypts`)
 
-### Extended Module Enhancements (v9 Updates)
+### 2. S-Box Based Encoding Layer
+- **Purpose**: String ↔ Bytes conversion only  
+- **Not encryption** — provides **no confidentiality** or integrity protection  
+- Maps Unicode characters to fixed-length byte sequences (default: 3 bytes)  
+- Two modes:
+  - **packet** mode — fixed-length encoding
+  - **separator** mode — uses 0xFF byte as separator for variable-length encoding
+- Deterministic and reproducible from seed
+- Optional shuffling of the mapping table
 
-  * **New Security Primitive – Slow Decryption (SlowDE):** A brand new security layer designed to drastically slow down **offline brute-force attacks**. It requires an attacker to find a hidden secondary key (randomly generated and integrated into the ciphertext) through a combinatorial search, significantly increasing the cost and time of key recovery attempts.
-  * **Hardened Hash Functions:** Introduction of **`HashHard`** and the optional **`LeCustomHash`** class, providing complex, custom, self-referential hashing primitives for research or unique security requirements.
-  * **Enhanced "Hard" Mode:** The `encrypt_hard` / `decrypt_hard` functions now automatically integrate the **SlowDE** layer, making the "one cipher to rule them all" mode even more resistant to attack.
+### 3. Custom Hash Functions (LeCustomHash) – Independence from Blake2b
+- Two accumulation modes:
+  - **Fast mode**: sum-based accumulation (extremely high speed)
+  - **Strong mode**: multiplication-based accumulation (higher diffusion and avalanche effect)
+- Block-wise processing optimized for long inputs
+- Built-in caching mechanism for repeated hash computations
+- **Key point**: When `LeCustomHash` is used (via `LeCustomHash` class or related configurations), the engine **no longer relies on blake2b at all**.  
+  This makes LeCatchu a **fully self-contained cryptographic construction** with its own internal hash primitive — removing any external hash function dependency.
 
-### Features Retained from v8.2
+### 4. Initialization Vector (IV) / Nonce Support
+- Random or externally provided IV
+- Fully configurable IV length
+- IV can be encrypted with its own key-stream parameters (`ivxbase`, `ivinterval`)
 
-  * **Instant Engine Startup (`encoding=False`)** – The historic 5–10 second delay is now optional. Disable the sbox and the engine initializes in **less than 0.01 seconds**.
-  * **`interval` – Granular Speed/Security Control** – Dictates how often the internal BLAKE2b state is refreshed (e.g., `interval=4` for \~4× faster throughput).
-  * **`special_exchange` – Cryptographic Personality Transmutation** – A single secret string silently appended to every hash input, creating an entirely new, incompatible cipher universe.
-  * **ParallelStreamCipher Class – Production-Ready Secure Networking** – A complete, drop-in encrypted socket layer with automatic handshake and mutual verification.
-  * **LeCatchu\_Extra Module – Full LCA (LeCatchu Authenticated Armor) Suite** – Includes the `encrypt_armor`/`decrypt_armor` (TAC tags + optional left/right CBC-style chaining) and the key-derived randomized `encrypt_hard` mode.
-  * **Raw ECB & Custom CBC Chaining Primitives** – `encrypt_raw`, `encrypt_chain` – full control for researchers.
-  * **Built-in Shannon entropy scorer** (`entropy_score`).
+### 5. TAC (Tag-Authenticated Content)
+- Appends and prepends hash-derived authentication tags
+- Verifies integrity and origin during decryption
+- Tag derivation parameters are independently configurable
 
-**Optimization Update Details:**
+### 6. Chaining Mode
+- Each block influences the next via previous output hash
+- Can be applied in forward, reverse, or both directions
+- Configurable block size (`chainblocks`)
+- Configurable hash strength for chaining (`chainxbase`)
 
-The S-box definition process of the LeCatchu encryption engine has been optimized. A new parameter called **perlength** has been added, which controls the length (in bytes) of each encoded segment. Thanks to this, corresponding blocks are no longer limited to 3 bytes — they can now be of any desired length.  
-Additionally, the **seperatorprov** parameter provides data size savings in separator encoding mode.
+### 7. Slow Decryption Engine (SDE)
+- Makes decryption intentionally computationally expensive
+- Significantly increases brute-force cost
+- Controlled via `slowlevel` and `bytesrange` parameters
 
------
+### 8. LeCatchu Armor (LCA)
+- Multi-stage authenticated encryption pipeline
+- Typical sequence:
+  1. TAC tagging
+  2. Optional bidirectional chaining
+  3. Final IV-protected encryption layer
+- Each stage uses independent key-stream instances
 
-## Installation
+### 9. encrypt_hard / decrypt_hard
+- High-security preset with many automatically layered stages
+- Parameters chosen within controlled random ranges
+- Deterministic — same key + same parameters → same output
 
-There is no installation process.
+### 10. Deterministic Random Number Generator (LeRandom)
+- Built on top of the engine’s hash-stream
+- Seedable and reproducible
+- Implements standard interface: `random()`, `randint()`, `shuffle()`, `choice()`, `gauss()`, etc.
 
-Copy the **\~215 lines** (Core Engine) or **\~615 lines** (Full Edition) into your project or import as a module.
-Requires only Python 3.8+ and the standard library.
+### 11. Parallel / Bidirectional Stream (ParallelStreamCipher)
+- Two independent streams (IV layer + main layer)
+- Built-in socket helper methods for secure channel setup
+- IV exchange protocol support
 
-If you want to use it as a module, the PyPI library is up to date in v9.0.0. [PyPI](https://pypi.org/project/LeCatchu/)
+## Important Notice – Experimental Status
 
-## Usage Overview
+**All features inside the `LeCatchu_Extra` class are considered experimental.**
 
-Initialize in fortress mode (maximum security):
+This includes (but is not limited to):
 
-```python
-engine = LeCatchu_Engine(sboxseed="my fortress seed", encoding=True, shufflesbox=True, special_exchange="MyFortress")
-```
+- `encrypt_chain` / `decrypt_chain`
+- `encrypt_hard` / `decrypt_hard`
+- `encrypt_armor` / `decrypt_armor`
+- `encrypt_sde` / `decrypt_sde`
+- `encrypt_raw` / `decrypt_raw`
+- `entropy_score`
+- `process_hashard`
 
-Initialize in real-time mode (instant start):
+These high-level constructions have **not** undergone formal cryptanalysis.
 
-```python
-engine = LeCatchu_Engine(encoding=False)  # starts instantly
-```
+## Security Disclaimer
 
-Both modes support identical encryption, TAC, IV, and serialization features.
+**LeCatchu has not been independently cryptanalyzed.**
 
-## Notes & Best Practices
+The actual security level depends entirely on:
 
-  * Use `encoding=False` + `interval=1` + high `xbase` + unique `special_exchange` for the strongest real-time encryption possible.
-  * Reserve `encoding=True` for long-term archives, legal documents, or when per-character substitution is required.
-  * Always wrap sensitive payloads with TAC.
-  * Cache and reuse engine instances—never recreate on every request.
+- chosen parameter values
+- number of layers used
+- key quality and length
+- correct usage of authentication mechanisms (TAC, Armor)
+- whether custom hash or blake2b is used
 
-**Never bypass this:** [Security Guide](https://www.google.com/search?q=security_guide.md)
+For critical / high-value applications, prefer configurations using:
 
-## Limitations
+- `encrypt_hard()` with wide parameter ranges
+- Strong, long keys
+- Active SDE
+- Bidirectional chaining + LCA + TAC combination
+- Custom hash mode for full independence (if blake2b dependency is undesirable)
 
-  * Full sbox mode still requires 5–10 seconds at startup.
-  * Very high `interval` values reduce cryptographic strength (use consciously).
-  * Deliberately single-threaded to preserve minimal footprint and predictability.
+For low-risk scenarios, simpler and faster configurations may be acceptable.
 
-## Contributing
+## Summary
 
-LeCatchu v9 is lovingly maintained by **Simon Scap**. Every idea, bug report, or contribution is treasured.
+LeCatchu is a **single, lightweight cryptographic engine** that — through parameter control — can serve needs ranging from basic string/bytes conversion and obfuscation to very strong, multi-layered authenticated encryption.
 
-## License
+When using the custom hash system, it becomes a **fully independent cryptographic construction** without relying on blake2b — offering maximum control and minimal external dependencies.
 
-MIT License – unrestricted use forever.
-
-## Acknowledgments
-
-Conceived, designed, and brought to absolute completion by **Simon Scap**—the independent developer who turned a forgotten prototype into one of the most advanced, elegant, and versatile cryptographic engines on the planet.
-
-For questions, suggestions, or just to say thank you—open an issue. Your voice matters.
+You do not need to switch libraries or algorithms — you adjust the engine to match your exact security, performance, and dependency requirements.
 
 **Version**: 9
 **Engine File**: `v9/lecatchu_v9.py` 
