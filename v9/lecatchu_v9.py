@@ -60,10 +60,10 @@ class LeCatchu_Engine:  # LeCatchu LehnCATH4 Engine
         return bytes([255]).join([self.sbox[i] for i in string])
 
     def decode(self, bytestext):  # Decode the byte data
-        return "".join([self.resbox[bytestext[i:i+self.perlength]] for i in range(0, len(bytestext), self.perlength)])
+        return "".join([self.resbox[bytestext[i:i+self.perlength]] for i in range(0, len(bytestext), self.perlength)]) if bytestext else ""
 
     def __sep_decode(self, bytestext):  # Decode the byte data (with seperator)
-        return "".join([self.resbox[i] for i in bytestext.split(bytes([255]))])
+        return "".join([self.resbox[i] for i in bytestext.split(bytes([255]))]) if bytestext else ""
 
     @lru_cache(maxsize=128)
     def cached_hash(self, combk):
