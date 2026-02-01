@@ -161,6 +161,7 @@ The actual security level depends entirely on:
 
 For critical / high-value applications, prefer configurations using:
 
+- IV/Nonce (high requirement)
 - `encrypt_hard()` with wide parameter ranges
 - Strong, long keys
 - Active SDE
