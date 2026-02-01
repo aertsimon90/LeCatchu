@@ -1,6 +1,6 @@
 # LeCatchu v9 (LehnCATH4)
 
-<p align="center">
+<p>
   <img src="LeCatchu.png" alt="LeCatchu Logo" width="512"/>
   <br/>
   <em>Powerful • Lightweight • Extremely Configurable Cryptographic Engine</em>
